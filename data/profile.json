@@ -1,0 +1,100 @@
+{
+  "profile": {
+    "name": "Aakash Kumar",
+    "initials": "AK",
+    "role": "Senior Platform & DevSecOps Engineer",
+    "headline": "Enterprise DevSecOps & Platform Engineering Portfolio",
+    "subheadline": "Cloud Automation • CI/CD • Infrastructure • Governance • Remediation",
+    "summary": "Senior Platform & DevSecOps Engineer with 6+ years of experience designing and scaling enterprise automation platforms within large banking and financial services environments. Specialized in CI/CD automation, cloud infrastructure, platform engineering, vulnerability remediation, and policy-driven operational automation.",
+    "location": "Pune, India | Open to Bangalore & Dubai",
+    "email": "akgaya99@gmail.com"
+  },
+  "links": {
+    "linkedin": "https://www.linkedin.com/",
+    "github": "https://github.com/",
+    "email": "mailto:akgaya99@gmail.com"
+  },
+  "metrics": [
+    {
+      "icon": "🚀",
+      "value": "100K+",
+      "label": "Deployment Operations",
+      "subtext": "Supported at enterprise scale"
+    },
+    {
+      "icon": "📈",
+      "value": "70%",
+      "label": "Operational Effort Reduction",
+      "subtext": "Automation-led efficiency"
+    },
+    {
+      "icon": "🏢",
+      "value": "Enterprise",
+      "label": "Platform Ownership",
+      "subtext": "Banking-grade automation"
+    },
+    {
+      "icon": "🛡️",
+      "value": "Secure",
+      "label": "DevSecOps Delivery",
+      "subtext": "Governed and reliable"
+    }
+  ],
+  "capabilities": [
+    {
+      "icon": "🛡️",
+      "title": "DevSecOps Engineering",
+      "description": "Secure automation, vulnerability remediation workflows, governance controls, and audit-ready delivery pipelines."
+    },
+    {
+      "icon": "⚙️",
+      "title": "Platform Engineering",
+      "description": "Internal platforms, self-service workflows, reusable automation layers, and long-term platform ownership."
+    },
+    {
+      "icon": "☁️",
+      "title": "Cloud Automation",
+      "description": "AWS infrastructure automation, environment provisioning, API integration, and cloud operational reliability."
+    },
+    {
+      "icon": "🚀",
+      "title": "CI/CD Automation",
+      "description": "Jenkins-led delivery automation, release governance, build orchestration, and deployment lifecycle optimization."
+    }
+  ],
+  "projects": [
+    {
+      "icon": "🎯",
+      "title": "Enterprise Vulnerability Remediation Platform",
+      "description": "Centralized remediation orchestration platform concept for regulated enterprise environments."
+    },
+    {
+      "icon": "🚀",
+      "title": "Enterprise CI/CD Automation Framework",
+      "description": "Standardized large-scale deployment operations using Jenkins, AWS, Terraform, and governance workflows."
+    },
+    {
+      "icon": "📊",
+      "title": "Trading Automation Systems",
+      "description": "Real-time automation systems using WebSocket market data, broker APIs, and strategy-based execution."
+    }
+  ],
+  "skills": [
+    "DevSecOps",
+    "Platform Engineering",
+    "AWS",
+    "Jenkins",
+    "Python",
+    "Terraform",
+    "Ansible",
+    "Linux",
+    "REST APIs",
+    "CI/CD",
+    "Cloud Automation",
+    "Infrastructure Automation",
+    "Bitbucket",
+    "Artifactory",
+    "Git",
+    "Jira"
+  ]
+}
