@@ -1,362 +1,692 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Aakash Kumar | Enterprise Engineering Portfolio",
+    page_title="Aakash Kumar | Platform Engineering Command Center",
     page_icon="⚡",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 # ======================================================
-# DATA CONFIG
+# PROFILE DATA
 # ======================================================
 PROFILE = {
     "name": "Aakash Kumar",
+    "initials": "AK",
     "role": "Senior Platform & DevSecOps Engineer",
-    "positioning": "Enterprise Automation • DevSecOps • Cloud Platform Engineering",
-    "location": "Pune, India | Open to Bangalore & Dubai",
+    "headline": "Enterprise DevSecOps & Platform Engineering Portfolio",
+    "subheadline": "Cloud Automation • CI/CD • Infrastructure • Governance • Remediation",
+    "welcome": "WELCOME TO",
+    "command_center": "Platform Engineering Command Center",
+    "intro": "Building enterprise-grade automation platforms and delivering scalable, secure and resilient engineering solutions.",
     "email": "akgaya99@gmail.com",
-    "summary": (
-        "Senior Platform & DevSecOps Engineer with 6+ years of experience designing and scaling "
-        "enterprise automation platforms within banking and financial services environments. Specialized in "
-        "CI/CD automation, vulnerability remediation, cloud infrastructure, platform engineering, and "
-        "policy-driven operational automation."
-    ),
-    "cta": "Open for senior IC roles in DevSecOps, Platform Engineering, Cloud Engineering, and Automation Engineering.",
+    "location": "Pune, India | Open to Bangalore & Dubai",
+    "url": "aakash-platform-engineering.streamlit.app",
 }
 
+CAPABILITY_RAIL = [
+    ("🛡️", "DevSecOps", "Secure, automated and compliant delivery pipelines"),
+    ("🧊", "Platform Engineering", "Scalable platforms and self-service automation"),
+    ("⚙️", "CI/CD Automation", "End-to-end build, test and deploy automation"),
+    ("☁️", "Cloud Infrastructure", "AWS cloud automation and infrastructure design"),
+    ("</>", "Infrastructure as Code", "Terraform, Ansible, and automated infrastructure provisioning"),
+    ("🛡", "Enterprise Governance", "Policy-as-code, compliance and governance at scale"),
+    ("🎯", "Remediation Automation", "Vulnerability remediation and operational automation"),
+    ("📈", "Monitoring & Observability", "Observability, logging and alerting at enterprise scale"),
+]
+
+NAV_ITEMS = [
+    ("⌂", "Overview"),
+    ("♟", "About Me"),
+    ("✥", "Capabilities"),
+    ("▣", "Experience"),
+    ("⌘", "Architecture"),
+    ("□", "Projects"),
+    ("⌁", "Technologies"),
+    ("◈", "Achievements"),
+    ("✉", "Contact"),
+]
+
 METRICS = [
-    {"value": "6+", "label": "Years Experience", "detail": "Enterprise banking environments"},
-    {"value": "100K+", "label": "Deployments Supported", "detail": "Large-scale application ecosystems"},
-    {"value": "70%", "label": "Effort Reduction", "detail": "Automation-led operational efficiency"},
-    {"value": "45 LPA", "label": "Target CTC", "detail": "Senior IC / specialist roles"},
+    ("🚀", "100K+", "Deployment Operations", "Supported"),
+    ("📈", "70%", "Reduction in", "Operational Effort"),
+    ("▦", "Enterprise", "Scale", "Automation Platform Ownership"),
+    ("👥", "Multi-Team", "Enablement", "Cross-functional Collaboration"),
+    ("🛡️", "High", "Reliability", "Secure & Compliant Delivery"),
 ]
 
-CAPABILITIES = [
-    {
-        "title": "DevSecOps Engineering",
-        "icon": "🛡️",
-        "desc": "Vulnerability remediation workflows, governance controls, audit-ready automation, and security lifecycle orchestration.",
-    },
-    {
-        "title": "Platform Engineering",
-        "icon": "⚙️",
-        "desc": "Internal developer platforms, self-service workflows, reusable automation layers, and operational product ownership.",
-    },
-    {
-        "title": "CI/CD Automation",
-        "icon": "🚀",
-        "desc": "Jenkins-led delivery automation, release governance, environment orchestration, and deployment lifecycle optimization.",
-    },
-    {
-        "title": "Cloud Automation",
-        "icon": "☁️",
-        "desc": "AWS-based infrastructure automation, provisioning workflows, API integration, and cloud operational reliability.",
-    },
-    {
-        "title": "Infrastructure Automation",
-        "icon": "🏗️",
-        "desc": "Terraform, Ansible, Linux, Bash, REST APIs, and automation-first infrastructure engineering practices.",
-    },
-    {
-        "title": "Enterprise Governance",
-        "icon": "📊",
-        "desc": "Controls, reporting, audit visibility, release discipline, and regulated-environment execution models.",
-    },
+PIPELINE = [
+    ("</>", "Code"),
+    ("⚙", "Build"),
+    ("◎", "Test"),
+    ("🛡", "Security Scan"),
+    ("⬢", "Deploy"),
+    ("⌁", "Monitor"),
 ]
 
-SKILLS = [
-    "DevSecOps", "Platform Engineering", "CI/CD", "Cloud Automation", "Infrastructure Automation",
-    "Vulnerability Management", "AWS Services", "Jenkins", "Python", "Terraform", "Ansible", "Linux",
-    "RESTful APIs", "API Integration", "Automation Engineering", "Bitbucket", "Artifactory", "Git", "Bash", "Jira"
+REMEDIATION = [
+    ("✣", "Detect"),
+    ("☷", "Prioritize"),
+    ("▣", "Remediate"),
+    ("⌬", "Validate"),
+    ("✤", "Report"),
+]
+
+BOTTOM_CARDS = [
+    ("☁", "CLOUD & INFRASTRUCTURE", "AWS, Terraform, Ansible, Linux and scalable infrastructure automation."),
+    ("🔒", "SECURE BY DESIGN", "DevSecOps practices, policy controls, security scanning and compliance embedded in pipelines."),
+    ("⚙", "AUTOMATION FIRST", "Eliminating manual work through reusable automation and engineering frameworks."),
+    ("🎯", "BUSINESS IMPACT", "Driving operational excellence, improving reliability and delivering measurable outcomes."),
+]
+
+TECH_STACK = [
+    "DevSecOps", "Platform Engineering", "AWS", "Jenkins", "Python", "Terraform", "Ansible", "Linux",
+    "REST APIs", "CI/CD", "Cloud Automation", "Infrastructure Automation", "Bitbucket", "Artifactory", "Git", "Jira"
 ]
 
 PROJECTS = [
     {
         "title": "Enterprise Vulnerability Remediation Platform",
-        "label": "DevSecOps Platform",
-        "impact": "Centralized remediation orchestration for regulated enterprise environments.",
-        "desc": "Designed platform concepts for vulnerability workflow tracking, policy-based remediation, CI/CD integration, automation workers, and audit visibility without exposing proprietary implementation details.",
-        "stack": ["Python", "Jenkins", "AWS", "REST APIs", "DevSecOps", "Automation"],
+        "tag": "DevSecOps Platform",
+        "text": "Centralized remediation orchestration for regulated enterprise environments with workflow tracking, governance checkpoints, CI/CD integration, automation workers and audit visibility.",
     },
     {
         "title": "Enterprise CI/CD Automation Framework",
-        "label": "Release Engineering",
-        "impact": "Standardized and scaled deployment operations across large application ecosystems.",
-        "desc": "Built automation-first delivery workflows with governance checkpoints, deployment orchestration, environment handling, and reduced senior operational dependency.",
-        "stack": ["Jenkins", "Terraform", "AWS", "Linux", "Shell", "Bitbucket"],
+        "tag": "Release Engineering",
+        "text": "Standardized deployment operations across large application ecosystems using Jenkins-led orchestration, policy controls, infrastructure automation and operational reliability practices.",
     },
     {
         "title": "Trading Automation Systems",
-        "label": "FinTech Automation",
-        "impact": "Real-time strategy execution using broker APIs and market data streams.",
-        "desc": "Created automated trading systems using WebSocket feeds, REST APIs, strategy logic, risk controls, and execution workflows for market automation experiments.",
-        "stack": ["Python", "WebSocket", "Dhan API", "MQL5", "REST APIs"],
+        "tag": "FinTech Automation",
+        "text": "Real-time automation systems using WebSocket market data, broker APIs, strategy logic and execution workflow design for market automation experiments.",
     },
 ]
 
-TIMELINE = [
-    ("Platform Ownership", "Moved automation from script-based execution to long-lived platform ownership models."),
-    ("Enterprise Scale", "Supported large-scale deployment operations and multi-team engineering workflows."),
-    ("DevSecOps Expansion", "Focused on remediation orchestration, governance, and security automation."),
-    ("Cloud Automation", "Built AWS, CI/CD, infrastructure, and API-driven automation capabilities."),
-]
-
 # ======================================================
-# DESIGN SYSTEM
+# CSS DESIGN SYSTEM
 # ======================================================
 st.markdown(
     """
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
-        html, body, [class*="css"] {
-            font-family: 'Inter', sans-serif;
+        :root {
+            --bg: #020617;
+            --panel: rgba(8, 20, 38, 0.86);
+            --panel2: rgba(10, 30, 55, 0.78);
+            --border: rgba(56, 189, 248, 0.28);
+            --border-soft: rgba(148, 163, 184, 0.20);
+            --text: #f8fafc;
+            --muted: #a9bdd3;
+            --blue: #38bdf8;
+            --blue2: #2563eb;
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --purple: #a855f7;
+            --orange: #fb923c;
         }
+
+        * { font-family: 'Inter', sans-serif; }
 
         .stApp {
             background:
-                radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.28), transparent 28%),
-                radial-gradient(circle at 85% 15%, rgba(14, 165, 233, 0.18), transparent 26%),
-                radial-gradient(circle at 50% 90%, rgba(99, 102, 241, 0.16), transparent 26%),
-                #020617;
-            color: #e5e7eb;
-        }
-
-        section[data-testid="stSidebar"] {
-            background: rgba(2, 6, 23, 0.92);
-            border-right: 1px solid rgba(148, 163, 184, 0.18);
+                radial-gradient(circle at 50% -5%, rgba(59, 130, 246, 0.28), transparent 28%),
+                radial-gradient(circle at 12% 28%, rgba(14, 165, 233, 0.12), transparent 26%),
+                radial-gradient(circle at 84% 38%, rgba(37, 99, 235, 0.18), transparent 28%),
+                linear-gradient(180deg, #020617 0%, #03111f 52%, #020617 100%);
+            color: var(--text);
         }
 
         .block-container {
-            padding-top: 1.6rem;
-            padding-bottom: 3rem;
-            max-width: 1320px;
+            max-width: 1500px;
+            padding: 1.25rem 2.4rem 2rem 2.4rem;
         }
 
-        h1, h2, h3, h4, h5, h6, p, li, span, div {
-            color: #e5e7eb;
+        header[data-testid="stHeader"] { background: transparent; }
+        section[data-testid="stSidebar"] { display: none; }
+        #MainMenu, footer { visibility: hidden; }
+
+        h1, h2, h3, h4, h5, h6, p, span, div, label { color: var(--text); }
+
+        .top-title {
+            text-align: center;
+            margin-top: -0.2rem;
+            margin-bottom: 0.65rem;
         }
 
-        .hero {
-            position: relative;
-            overflow: hidden;
-            padding: 3rem;
-            border-radius: 34px;
-            background:
-                linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.72)),
-                linear-gradient(90deg, rgba(37, 99, 235, 0.28), rgba(14, 165, 233, 0.12));
-            border: 1px solid rgba(148, 163, 184, 0.22);
-            box-shadow: 0 32px 90px rgba(0, 0, 0, 0.42);
-        }
-
-        .hero:before {
-            content: "";
-            position: absolute;
-            inset: -2px;
-            background: radial-gradient(circle at 70% 20%, rgba(56, 189, 248, 0.22), transparent 25%);
-            pointer-events: none;
-        }
-
-        .kicker {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
-            border-radius: 999px;
-            color: #bae6fd;
-            background: rgba(14, 165, 233, 0.12);
-            border: 1px solid rgba(125, 211, 252, 0.28);
-            font-size: 0.88rem;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-        }
-
-        .hero-title {
-            margin-top: 1.1rem;
-            font-size: clamp(2.4rem, 5vw, 5rem);
-            line-height: 0.95;
-            font-weight: 900;
-            letter-spacing: -0.06em;
+        .top-title h1 {
+            margin: 0;
+            font-size: clamp(2.6rem, 5.5vw, 5.3rem);
+            line-height: 0.92;
+            letter-spacing: -0.055em;
+            font-weight: 950;
+            text-transform: uppercase;
             color: #f8fafc;
+            text-shadow: 0 0 32px rgba(125, 211, 252, 0.28);
         }
 
-        .hero-role {
-            font-size: clamp(1.15rem, 2vw, 1.8rem);
-            color: #38bdf8;
-            font-weight: 800;
-            margin-top: 0.8rem;
+        .top-title .blue {
+            display: block;
+            color: #3b82f6;
+            text-shadow: 0 0 36px rgba(59, 130, 246, 0.50);
         }
 
-        .hero-text {
-            max-width: 880px;
+        .subtitle {
+            margin-top: 0.9rem;
             color: #cbd5e1;
-            font-size: 1.06rem;
-            line-height: 1.75;
-            margin-top: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.38em;
+            font-size: clamp(0.84rem, 1.3vw, 1.14rem);
+            text-transform: uppercase;
         }
 
-        .pill-row {
-            margin-top: 1.4rem;
+        .shell {
+            display: grid;
+            grid-template-columns: 310px 1fr;
+            gap: 22px;
+            margin-top: 1.1rem;
         }
 
-        .pill {
-            display: inline-block;
-            padding: 0.5rem 0.82rem;
-            margin: 0.24rem;
-            border-radius: 999px;
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            color: #e0f2fe;
-            font-size: 0.88rem;
-            font-weight: 600;
-        }
-
-        .metric-card {
-            padding: 1.35rem;
-            border-radius: 24px;
-            background: linear-gradient(180deg, rgba(15,23,42,0.98), rgba(2,6,23,0.95));
-            border: 1px solid rgba(148, 163, 184, 0.18);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.22);
-            min-height: 160px;
-        }
-
-        .metric-value {
-            font-size: 2.25rem;
+        .left-label {
+            font-size: 0.92rem;
             font-weight: 900;
+            letter-spacing: 0.02em;
+            margin: 0 0 0.7rem 1.05rem;
+            color: #f8fafc;
+        }
+
+        .cap-card {
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            gap: 14px;
+            align-items: center;
+            min-height: 74px;
+            padding: 0.74rem 0.95rem;
+            margin-bottom: 7px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(8, 28, 50, 0.88), rgba(4, 19, 35, 0.86));
+            border: 1px solid rgba(56, 189, 248, 0.16);
+            box-shadow: inset 0 0 18px rgba(14, 165, 233, 0.04);
+        }
+
+        .cap-card .icon {
+            height: 42px;
+            width: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
             color: #38bdf8;
-            letter-spacing: -0.04em;
+            background: rgba(14, 165, 233, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.18);
+            box-shadow: 0 0 22px rgba(56, 189, 248, 0.12);
         }
 
-        .metric-label {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #f8fafc;
-            margin-top: 0.35rem;
-        }
-
-        .metric-detail {
-            font-size: 0.86rem;
-            color: #94a3b8;
-            margin-top: 0.4rem;
-            line-height: 1.5;
-        }
-
-        .section-title {
-            margin-top: 2.4rem;
-            margin-bottom: 0.9rem;
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: -0.04em;
-            color: #f8fafc;
-        }
-
-        .section-subtitle {
-            color: #94a3b8;
-            font-size: 1rem;
-            margin-bottom: 1.2rem;
-            max-width: 860px;
-        }
-
-        .glass-card {
-            padding: 1.45rem;
-            border-radius: 24px;
-            background: rgba(15, 23, 42, 0.78);
-            border: 1px solid rgba(148, 163, 184, 0.18);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-            backdrop-filter: blur(16px);
-            height: 100%;
-        }
-
-        .cap-icon {
-            font-size: 1.8rem;
-            margin-bottom: 0.7rem;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
+        .cap-title {
+            font-size: 0.98rem;
             font-weight: 850;
             color: #f8fafc;
-            margin-bottom: 0.45rem;
+            line-height: 1.05;
+            margin-bottom: 0.25rem;
         }
 
-        .card-text {
-            color: #aebdd0;
-            line-height: 1.62;
-            font-size: 0.94rem;
+        .cap-desc {
+            color: #c8d4e2;
+            line-height: 1.35;
+            font-size: 0.80rem;
         }
 
-        .project-card {
-            padding: 1.6rem;
-            border-radius: 28px;
+        .main-panel {
+            border-radius: 22px;
+            border: 1px solid rgba(56, 189, 248, 0.33);
             background:
-                linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.72));
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            box-shadow: 0 24px 70px rgba(0,0,0,0.24);
-            margin-bottom: 1rem;
+                radial-gradient(circle at 78% 24%, rgba(56, 189, 248, 0.20), transparent 22%),
+                linear-gradient(180deg, rgba(5, 18, 34, 0.95), rgba(4, 13, 26, 0.92));
+            box-shadow: 0 0 42px rgba(14, 165, 233, 0.13), 0 30px 90px rgba(0,0,0,0.36);
+            overflow: hidden;
+            min-height: 610px;
         }
 
-        .project-label {
-            display: inline-block;
-            padding: 0.35rem 0.7rem;
-            border-radius: 999px;
-            background: rgba(37, 99, 235, 0.18);
-            border: 1px solid rgba(96, 165, 250, 0.28);
-            color: #bfdbfe;
+        .panel-header {
+            min-height: 88px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.45rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+            background: rgba(3, 12, 26, 0.72);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .ak-box {
+            height: 48px;
+            width: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 950;
+            font-size: 1.35rem;
+            color: #38bdf8;
+            background: rgba(14, 165, 233, 0.11);
+            border: 1px solid rgba(56, 189, 248, 0.38);
+            box-shadow: 0 0 28px rgba(56, 189, 248, 0.11);
+        }
+
+        .brand-name {
+            font-size: 1.15rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .brand-role {
+            margin-top: 0.35rem;
+            font-size: 0.84rem;
+            color: #dbeafe;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .top-button {
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            padding: 0.72rem 1.05rem;
+            border-radius: 8px;
+            background: linear-gradient(180deg, rgba(15, 38, 72, 0.86), rgba(8, 24, 46, 0.86));
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            color: #f8fafc;
+            font-weight: 700;
+            font-size: 0.88rem;
+            text-decoration: none;
+        }
+
+        .panel-body {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            min-height: 520px;
+        }
+
+        .inner-nav {
+            padding: 1.6rem 0.9rem;
+            border-right: 1px solid rgba(148, 163, 184, 0.16);
+            background: linear-gradient(180deg, rgba(3, 20, 39, 0.88), rgba(2, 9, 21, 0.85));
+        }
+
+        .nav-row {
+            padding: 0.68rem 0.7rem;
+            border-radius: 6px;
+            margin-bottom: 0.55rem;
+            color: #e5e7eb;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .nav-row.active {
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.78), rgba(14, 165, 233, 0.35));
+            box-shadow: inset 0 0 14px rgba(125, 211, 252, 0.12);
+        }
+
+        .command-content {
+            padding: 2.35rem 1.55rem 1.0rem 2.35rem;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .small-blue {
+            color: #7dd3fc;
+            letter-spacing: 0.22em;
             font-size: 0.78rem;
             font-weight: 800;
         }
 
-        .project-title {
-            margin-top: 0.8rem;
-            font-size: 1.35rem;
-            font-weight: 900;
+        .command-title {
+            margin-top: 0.9rem;
+            font-size: clamp(1.8rem, 2.3vw, 2.25rem);
+            line-height: 1.05;
+            font-weight: 950;
+            letter-spacing: -0.04em;
             color: #f8fafc;
         }
 
-        .project-impact {
-            margin-top: 0.35rem;
-            color: #7dd3fc;
-            font-weight: 700;
+        .command-text {
+            max-width: 650px;
+            margin-top: 1rem;
+            color: #d4dfed;
+            line-height: 1.62;
+            font-size: 0.96rem;
         }
 
-        .timeline-item {
-            border-left: 2px solid rgba(56, 189, 248, 0.55);
-            padding-left: 1rem;
-            padding-bottom: 1.2rem;
-            margin-left: 0.4rem;
+        .cloud-scene {
+            height: 190px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .timeline-title {
-            font-weight: 850;
-            color: #f8fafc;
+        .cloud {
+            position: absolute;
+            top: 12px;
+            left: 145px;
+            font-size: 5.4rem;
+            color: #38bdf8;
+            filter: drop-shadow(0 0 28px rgba(56,189,248,0.7));
         }
 
-        .timeline-desc {
-            color: #94a3b8;
-            line-height: 1.55;
+        .node-base, .node-small {
+            position: absolute;
+            border: 1px solid rgba(56, 189, 248, 0.55);
+            background: rgba(14, 165, 233, 0.08);
+            transform: rotate(45deg);
+            box-shadow: 0 0 18px rgba(56,189,248,0.25);
         }
 
-        .notice {
-            padding: 1.25rem 1.4rem;
-            border-radius: 22px;
-            background: rgba(8, 47, 73, 0.5);
-            border: 1px solid rgba(14, 165, 233, 0.3);
-            color: #dbeafe;
-            line-height: 1.65;
+        .node-base { width: 80px; height: 80px; top: 98px; left: 188px; }
+        .node-small { width: 44px; height: 44px; }
+        .n1 { top: 112px; left: 88px; }
+        .n2 { top: 135px; left: 150px; }
+        .n3 { top: 135px; left: 285px; }
+        .n4 { top: 112px; left: 350px; }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+            margin-top: 2.1rem;
         }
 
-        .footer-card {
-            padding: 1.5rem;
-            border-radius: 24px;
-            background: rgba(2, 6, 23, 0.8);
+        .metric-card {
+            min-height: 118px;
+            border-radius: 10px;
+            padding: 1.1rem 0.9rem;
+            background: linear-gradient(180deg, rgba(12, 36, 65, 0.86), rgba(5, 17, 33, 0.92));
             border: 1px solid rgba(148, 163, 184, 0.18);
-            margin-top: 2rem;
+            text-align: center;
+            box-shadow: inset 0 0 18px rgba(56, 189, 248, 0.04);
         }
 
-        div[data-testid="stRadio"] label p {
+        .metric-icon {
+            height: 34px;
+            width: 34px;
+            margin: 0 auto 0.55rem auto;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(37, 99, 235, 0.28);
+            color: #7dd3fc;
+            font-size: 1.05rem;
+        }
+
+        .metric-main {
+            color: #f8fafc;
+            font-size: 1.34rem;
+            font-weight: 950;
+            line-height: 1.02;
+        }
+
+        .metric-sub {
+            margin-top: 0.38rem;
+            color: #d5e2f0;
+            font-size: 0.76rem;
+            line-height: 1.34;
+        }
+
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 1rem;
+        }
+
+        .workflow-card {
+            border-radius: 10px;
+            padding: 1rem 1rem 0.9rem 1rem;
+            background: linear-gradient(180deg, rgba(10, 31, 57, 0.72), rgba(5, 17, 33, 0.90));
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .workflow-title {
+            font-size: 0.78rem;
+            color: #cfe7ff;
+            letter-spacing: 0.04em;
+            margin-bottom: 1rem;
+        }
+
+        .steps {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -10px;
+            top: 13px;
+            color: #7dd3fc;
+            opacity: 0.8;
+        }
+
+        .step-icon {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.55rem auto;
+            background: rgba(37, 99, 235, 0.35);
+            border: 1px solid rgba(56, 189, 248, 0.22);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.10);
+            color: #dbeafe;
+        }
+
+        .step-label {
+            font-size: 0.74rem;
+            color: #f8fafc;
+            line-height: 1.2;
+        }
+
+        .checks {
+            border-top: 1px solid rgba(148, 163, 184, 0.14);
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            color: #dbeafe;
+            font-size: 0.72rem;
+        }
+
+        .check::before {
+            content: "✓";
+            color: #22c55e;
+            font-weight: 900;
+            margin-right: 5px;
+        }
+
+        .bottom-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border-radius: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.22);
+            background: rgba(4, 14, 27, 0.78);
+            overflow: hidden;
+            margin-top: 1.0rem;
+        }
+
+        .bottom-item {
+            display: grid;
+            grid-template-columns: 58px 1fr;
+            gap: 14px;
+            padding: 1.15rem 1.1rem;
+            border-right: 1px solid rgba(148, 163, 184, 0.16);
+            min-height: 100px;
+        }
+
+        .bottom-item:last-child { border-right: 0; }
+
+        .bottom-icon {
+            font-size: 2.0rem;
+            color: #38bdf8;
+            filter: drop-shadow(0 0 18px rgba(56,189,248,0.34));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bottom-title {
+            font-size: 0.95rem;
+            font-weight: 950;
+            color: #67e8f9;
+            letter-spacing: 0.02em;
+        }
+
+        .bottom-text {
+            margin-top: 0.35rem;
+            color: #cad8e7;
+            line-height: 1.36;
+            font-size: 0.80rem;
+        }
+
+        .footer-line {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 22px;
+            margin-top: 1rem;
+            color: #38bdf8;
+            letter-spacing: 0.52em;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .footer-line::before, .footer-line::after {
+            content: "";
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(56,189,248,0.42));
+        }
+        .footer-line::after {
+            background: linear-gradient(90deg, rgba(56,189,248,0.42), transparent);
+        }
+
+        .explore {
+            position: fixed;
+            right: 2.2rem;
+            bottom: 1.4rem;
+            padding: 0.75rem 1.15rem;
+            width: 330px;
+            border-radius: 10px;
+            background: rgba(5, 20, 38, 0.95);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            box-shadow: 0 0 30px rgba(14,165,233,0.12);
+            z-index: 99;
+        }
+
+        .explore .one {
+            font-size: 1rem;
+            font-weight: 800;
+        }
+        .explore .two {
+            margin-top: 0.25rem;
+            font-size: 0.86rem;
+            color: #38bdf8;
+        }
+
+        .content-section {
+            border-radius: 18px;
+            border: 1px solid rgba(56, 189, 248, 0.23);
+            background: rgba(5, 18, 34, 0.82);
+            padding: 1.3rem;
+            margin-top: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.45rem;
+            font-weight: 950;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-muted {
+            color: #a9bdd3;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.44rem 0.75rem;
+            border-radius: 999px;
+            margin: 0.26rem;
+            background: rgba(14,165,233,0.10);
+            border: 1px solid rgba(56,189,248,0.24);
+            color: #dbeafe;
+            font-size: 0.82rem;
             font-weight: 700;
-            color: #cbd5e1;
+        }
+
+        .project-card {
+            border-radius: 14px;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, rgba(9, 32, 58, 0.86), rgba(4, 16, 31, 0.86));
+            border: 1px solid rgba(148,163,184,0.18);
+            margin-bottom: 0.9rem;
+        }
+
+        .project-tag {
+            display: inline-block;
+            color: #bae6fd;
+            background: rgba(37,99,235,0.22);
+            border: 1px solid rgba(56,189,248,0.25);
+            padding: 0.25rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 800;
+        }
+
+        .project-title {
+            margin-top: 0.7rem;
+            font-size: 1.08rem;
+            font-weight: 900;
+        }
+
+        @media (max-width: 1150px) {
+            .shell { grid-template-columns: 1fr; }
+            .capability-rail { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .panel-body { grid-template-columns: 1fr; }
+            .inner-nav { display: none; }
+            .hero-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .workflow-grid { grid-template-columns: 1fr; }
+            .bottom-strip { grid-template-columns: 1fr; }
+            .bottom-item { border-right: 0; border-bottom: 1px solid rgba(148, 163, 184, 0.16); }
+            .explore { position: static; width: auto; margin-top: 1rem; }
         }
     </style>
     """,
@@ -364,340 +694,241 @@ st.markdown(
 )
 
 # ======================================================
-# HELPERS
+# COMPONENT HELPERS
 # ======================================================
-def render_pills(items):
-    html = "<div class='pill-row'>" + "".join([f"<span class='pill'>{item}</span>" for item in items]) + "</div>"
-    st.markdown(html, unsafe_allow_html=True)
-
-
-def render_metrics():
-    cols = st.columns(4)
-    for col, item in zip(cols, METRICS):
-        with col:
-            st.markdown(
-                f"""
-                <div class='metric-card'>
-                    <div class='metric-value'>{item['value']}</div>
-                    <div class='metric-label'>{item['label']}</div>
-                    <div class='metric-detail'>{item['detail']}</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-
-def render_section_header(title, subtitle):
-    st.markdown(f"<div class='section-title'>{title}</div>", unsafe_allow_html=True)
-    st.markdown(f"<div class='section-subtitle'>{subtitle}</div>", unsafe_allow_html=True)
-
-# ======================================================
-# SIDEBAR
-# ======================================================
-st.sidebar.markdown("### ⚡ Aakash Kumar")
-st.sidebar.caption("Enterprise Engineering Portfolio")
-
-page = st.sidebar.radio(
-    "Navigation",
-    ["Command Center", "Capabilities", "Architecture", "Projects", "Resume Snapshot", "Contact"],
-)
-
-st.sidebar.divider()
-st.sidebar.markdown("**Target Roles**")
-st.sidebar.write("• DevSecOps Engineer")
-st.sidebar.write("• Platform Engineer")
-st.sidebar.write("• Cloud Engineer")
-
-st.sidebar.divider()
-st.sidebar.markdown("**Core Stack**")
-st.sidebar.write("AWS • Jenkins • Python • Terraform")
-st.sidebar.write("CI/CD • Linux • APIs • Automation")
-
-st.sidebar.divider()
-st.sidebar.markdown("**Location**")
-st.sidebar.write(PROFILE["location"])
-
-# ======================================================
-# PAGES
-# ======================================================
-if page == "Command Center":
+def render_top_title():
     st.markdown(
         f"""
-        <div class='hero'>
-            <div class='kicker'>⚡ {PROFILE['positioning']}</div>
-            <div class='hero-title'>{PROFILE['name']}</div>
-            <div class='hero-role'>{PROFILE['role']}</div>
-            <div class='hero-text'>{PROFILE['summary']}</div>
-            <div class='pill-row'>
-                <span class='pill'>DevSecOps</span>
-                <span class='pill'>Platform Engineering</span>
-                <span class='pill'>Cloud Automation</span>
-                <span class='pill'>CI/CD Orchestration</span>
-                <span class='pill'>Vulnerability Remediation</span>
-            </div>
+        <div class='top-title'>
+            <h1>ENTERPRISE DEVSECOPS &<span class='blue'>PLATFORM ENGINEERING PORTFOLIO</span></h1>
+            <div class='subtitle'>{PROFILE['subheadline']}</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.write("")
-    render_metrics()
 
-    render_section_header(
-        "Executive Positioning",
-        "Designed for recruiters and engineering leaders to understand senior IC capability in under 60 seconds.",
-    )
-
-    col1, col2 = st.columns([1.25, 0.75])
-    with col1:
-        st.markdown(
-            """
-            <div class='glass-card'>
-                <div class='card-title'>Engineering Identity</div>
-                <div class='card-text'>
-                    I operate at the intersection of DevSecOps, platform engineering, cloud automation, and enterprise governance.
-                    My core strength is converting manual operational processes into self-service, policy-driven automation platforms
-                    that scale across teams, tools, and regulated environments.
-                </div>
+def render_capability_rail():
+    html = "<div class='left-label'>ENGINEERING CAPABILITIES</div><div class='capability-rail'>"
+    for icon, title, desc in CAPABILITY_RAIL:
+        html += f"""
+        <div class='cap-card'>
+            <div class='icon'>{icon}</div>
+            <div>
+                <div class='cap-title'>{title}</div>
+                <div class='cap-desc'>{desc}</div>
             </div>
-            """,
-            unsafe_allow_html=True,
-        )
-    with col2:
-        st.markdown(
-            """
-            <div class='glass-card'>
-                <div class='card-title'>Best Fit</div>
-                <div class='card-text'>
-                    Senior IC roles in banking, fintech, GCCs, cloud infrastructure, DevSecOps, CI/CD platforms,
-                    internal developer platforms, and automation engineering.
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-    render_section_header("Technology Stack", "Recruiter-searchable and aligned with senior platform engineering roles.")
-    render_pills(SKILLS)
-
-elif page == "Capabilities":
-    render_section_header(
-        "Engineering Capabilities",
-        "A capability map showing how enterprise automation, security, cloud, and platform ownership connect.",
-    )
-
-    cols = st.columns(3)
-    for idx, item in enumerate(CAPABILITIES):
-        with cols[idx % 3]:
-            st.markdown(
-                f"""
-                <div class='glass-card'>
-                    <div class='cap-icon'>{item['icon']}</div>
-                    <div class='card-title'>{item['title']}</div>
-                    <div class='card-text'>{item['desc']}</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-            st.write("")
-
-    render_section_header("Career Evolution", "How the profile has matured from execution to platform ownership.")
-    for title, desc in TIMELINE:
-        st.markdown(
-            f"""
-            <div class='timeline-item'>
-                <div class='timeline-title'>{title}</div>
-                <div class='timeline-desc'>{desc}</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-elif page == "Architecture":
-    render_section_header(
-        "Architecture Showcase",
-        "Reference architecture for an enterprise remediation and automation platform. This intentionally avoids proprietary implementation details.",
-    )
-
-    st.graphviz_chart(
+        </div>
         """
-        digraph {
-            graph [bgcolor="transparent", rankdir=LR, splines=ortho];
-            node [shape=box, style="rounded,filled", fillcolor="#0f172a", fontcolor="#e5e7eb", color="#38bdf8", penwidth=1.5, fontname="Inter"];
-            edge [color="#7dd3fc", penwidth=1.4, fontname="Inter", fontcolor="#cbd5e1"];
+    html += "</div>"
+    st.markdown(html, unsafe_allow_html=True)
 
-            Signal [label="Security / Infra Signal"];
-            Platform [label="Central Remediation Platform"];
-            Governance [label="Policy & Governance Engine"];
-            CICD [label="CI/CD Orchestration"];
-            Workers [label="Automation Workers"];
-            Infra [label="AWS / Linux / Infra Targets"];
-            Jenkins [label="Jenkins Pipelines"];
-            Reporting [label="Audit & Reporting"];
-            Users [label="Engineering / Security Teams"];
 
-            Signal -> Platform;
-            Users -> Platform;
-            Platform -> Governance;
-            Platform -> CICD;
-            Platform -> Workers;
-            Workers -> Infra;
-            CICD -> Jenkins;
-            Governance -> Reporting;
-            Infra -> Reporting;
-            Jenkins -> Reporting;
-        }
+def render_header_buttons():
+    return """
+    <div class='buttons'>
+        <a class='top-button' href='#resume'>▣ Resume</a>
+        <a class='top-button' href='https://www.linkedin.com/' target='_blank'>in LinkedIn</a>
+        <a class='top-button' href='https://github.com/' target='_blank'>● GitHub</a>
+        <a class='top-button' href='mailto:akgaya99@gmail.com'>✉ Contact</a>
+    </div>
+    """
+
+
+def render_nav():
+    html = "<div class='inner-nav'>"
+    for i, (icon, label) in enumerate(NAV_ITEMS):
+        active = " active" if i == 0 else ""
+        html += f"<div class='nav-row{active}'><span>{icon}</span><span>{label}</span></div>"
+    html += "</div>"
+    return html
+
+
+def render_metrics():
+    html = "<div class='metrics-grid'>"
+    for icon, main, sub1, sub2 in METRICS:
+        html += f"""
+        <div class='metric-card'>
+            <div class='metric-icon'>{icon}</div>
+            <div class='metric-main'>{main}</div>
+            <div class='metric-sub'>{sub1}<br>{sub2}</div>
+        </div>
         """
-    )
+    html += "</div>"
+    return html
 
-    col1, col2, col3 = st.columns(3)
-    architecture_points = [
-        ("Control Plane", "Centralized orchestration for remediation requests, governance, and workflow visibility."),
-        ("Execution Layer", "Automation workers and CI/CD systems execute approved operational actions."),
-        ("Audit Layer", "Reporting, evidence capture, operational traceability, and governance-ready outputs."),
-    ]
-    for col, (title, desc) in zip([col1, col2, col3], architecture_points):
-        with col:
-            st.markdown(
-                f"""
-                <div class='glass-card'>
-                    <div class='card-title'>{title}</div>
-                    <div class='card-text'>{desc}</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
 
-elif page == "Projects":
-    render_section_header(
-        "Project Showcase",
-        "Portfolio-safe project storytelling focused on capability, architecture, and impact — not proprietary source code.",
-    )
+def render_cloud_scene():
+    return """
+    <div class='cloud-scene'>
+        <div class='cloud'>☁</div>
+        <div class='node-base'></div>
+        <div class='node-small n1'></div>
+        <div class='node-small n2'></div>
+        <div class='node-small n3'></div>
+        <div class='node-small n4'></div>
+    </div>
+    """
 
-    for project in PROJECTS:
-        st.markdown(
-            f"""
-            <div class='project-card'>
-                <span class='project-label'>{project['label']}</span>
-                <div class='project-title'>{project['title']}</div>
-                <div class='project-impact'>{project['impact']}</div>
-                <div class='card-text' style='margin-top: 0.7rem;'>{project['desc']}</div>
+
+def render_workflow(title, steps, checks):
+    html = f"<div class='workflow-card'><div class='workflow-title'>{title}</div><div class='steps'>"
+    for icon, label in steps:
+        html += f"""
+        <div class='step'>
+            <div class='step-icon'>{icon}</div>
+            <div class='step-label'>{label}</div>
+        </div>
+        """
+    html += "</div><div class='checks'>"
+    for check in checks:
+        html += f"<span class='check'>{check}</span>"
+    html += "</div></div>"
+    return html
+
+
+def render_bottom_strip():
+    html = "<div class='bottom-strip'>"
+    for icon, title, text in BOTTOM_CARDS:
+        html += f"""
+        <div class='bottom-item'>
+            <div class='bottom-icon'>{icon}</div>
+            <div>
+                <div class='bottom-title'>{title}</div>
+                <div class='bottom-text'>{text}</div>
             </div>
-            """,
-            unsafe_allow_html=True,
-        )
-        render_pills(project["stack"])
-        st.write("")
+        </div>
+        """
+    html += "</div>"
+    return html
 
-elif page == "Resume Snapshot":
-    render_section_header(
-        "Resume Snapshot",
-        "A recruiter-friendly summary of target roles, companies, industries, and positioning.",
-    )
 
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown(
-            """
-            <div class='glass-card'>
-                <div class='card-title'>Preferred Roles</div>
-                <div class='card-text'>
-                    • DevSecOps Engineer<br>
-                    • Platform Engineer<br>
-                    • Cloud Engineer
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-        st.write("")
-        st.markdown(
-            """
-            <div class='glass-card'>
-                <div class='card-title'>Preferred Industries</div>
-                <div class='card-text'>
-                    • Banking / Financial Services<br>
-                    • Software Product<br>
-                    • IT Services & Consulting<br>
-                    • FinTech
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+def render_tags(items):
+    html = "".join([f"<span class='tag'>{item}</span>" for item in items])
+    st.markdown(html, unsafe_allow_html=True)
 
-    with col2:
-        st.markdown(
-            """
-            <div class='glass-card'>
-                <div class='card-title'>Preferred Companies</div>
-                <div class='card-text'>
-                    • JP Morgan Chase<br>
-                    • Goldman Sachs<br>
-                    • Morgan Stanley<br>
-                    • Deutsche Bank<br>
-                    • Mastercard<br>
-                    • Fidelity Investments
+# ======================================================
+# MAIN UI
+# ======================================================
+render_top_title()
+
+st.markdown("<div class='shell'>", unsafe_allow_html=True)
+left, right = st.columns([0.23, 0.77], gap="large")
+
+with left:
+    render_capability_rail()
+
+with right:
+    panel_html = f"""
+    <div class='main-panel'>
+        <div class='panel-header'>
+            <div class='brand'>
+                <div class='ak-box'>{PROFILE['initials']}</div>
+                <div>
+                    <div class='brand-name'>{PROFILE['name']}</div>
+                    <div class='brand-role'>{PROFILE['role']}</div>
                 </div>
             </div>
-            """,
-            unsafe_allow_html=True,
-        )
-        st.write("")
-        st.markdown(
-            """
-            <div class='glass-card'>
-                <div class='card-title'>Compensation Positioning</div>
-                <div class='card-text'>
-                    Current senior enterprise engineering profile positioned for ₹45 LPA target roles in senior IC, platform,
-                    DevSecOps, and cloud automation tracks.
+            {render_header_buttons()}
+        </div>
+        <div class='panel-body'>
+            {render_nav()}
+            <div class='command-content'>
+                <div class='hero-grid'>
+                    <div>
+                        <div class='small-blue'>{PROFILE['welcome']}</div>
+                        <div class='command-title'>{PROFILE['command_center']}</div>
+                        <div class='command-text'>{PROFILE['intro']}</div>
+                    </div>
+                    {render_cloud_scene()}
+                </div>
+                {render_metrics()}
+                <div class='workflow-grid'>
+                    {render_workflow('CI/CD PIPELINE OVERVIEW', PIPELINE, ['Automated', 'Secure', 'Scalable', 'Observable'])}
+                    {render_workflow('REMEDIATION WORKFLOW', REMEDIATION, ['Detect Faster', 'Automate Remediation', 'Reduce Risk'])}
                 </div>
             </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        </div>
+    </div>
+    """
+    st.markdown(panel_html, unsafe_allow_html=True)
 
-    render_section_header("Profile Summary", "Compact summary suitable for Naukri, LinkedIn, and recruiter screening.")
-    st.markdown(f"<div class='notice'>{PROFILE['summary']}</div>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
-elif page == "Contact":
-    render_section_header("Contact", "For senior engineering, platform, DevSecOps, and cloud automation opportunities.")
+st.markdown(render_bottom_strip(), unsafe_allow_html=True)
+st.markdown("<div class='footer-line'><span>AUTOMATE • ORCHESTRATE • SECURE • SCALE</span></div>", unsafe_allow_html=True)
 
-    col1, col2 = st.columns([0.8, 1.2])
-    with col1:
-        st.markdown(
-            f"""
-            <div class='glass-card'>
-                <div class='card-title'>Aakash Kumar</div>
-                <div class='card-text'>
-                    {PROFILE['role']}<br><br>
-                    📍 {PROFILE['location']}<br>
-                    ✉️ {PROFILE['email']}
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-    with col2:
-        st.markdown(
-            f"""
-            <div class='glass-card'>
-                <div class='card-title'>Recruiter Note</div>
-                <div class='card-text'>
-                    {PROFILE['cta']} Strong fit for organizations building secure automation platforms,
-                    internal developer platforms, CI/CD systems, cloud infrastructure automation, and enterprise remediation workflows.
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+st.markdown(
+    f"""
+    <div class='explore'>
+        <div class='one'>Explore the Portfolio →</div>
+        <div class='two'>{PROFILE['url']}</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+# ======================================================
+# LOWER PORTFOLIO CONTENT
+# ======================================================
+st.markdown("<div id='resume'></div>", unsafe_allow_html=True)
 
 st.markdown(
     """
-    <div class='footer-card'>
-        <div class='card-text'>
-            Built as a portfolio-safe engineering showcase. The content demonstrates architecture thinking, capability depth,
-            and platform ownership without disclosing proprietary company code or confidential implementation details.
+    <div class='content-section'>
+        <div class='section-title'>Professional Summary</div>
+        <div class='section-muted'>
+            Senior Platform & DevSecOps Engineer with 6+ years of experience designing and scaling enterprise automation platforms
+            within large banking and financial services environments. Specialized in CI/CD automation, cloud infrastructure,
+            platform engineering, vulnerability remediation, and policy-driven operational automation that transforms manual processes
+            into scalable self-service systems.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    """
+    <div class='content-section'>
+        <div class='section-title'>Core Technology Stack</div>
+        <div class='section-muted'>Recruiter-searchable skills aligned with senior DevSecOps, platform engineering and cloud automation roles.</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+render_tags(TECH_STACK)
+
+st.markdown(
+    """
+    <div class='content-section'>
+        <div class='section-title'>Project Showcase</div>
+        <div class='section-muted'>Portfolio-safe project storytelling focused on architecture, execution capability and enterprise impact.</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+for project in PROJECTS:
+    st.markdown(
+        f"""
+        <div class='project-card'>
+            <span class='project-tag'>{project['tag']}</span>
+            <div class='project-title'>{project['title']}</div>
+            <div class='section-muted' style='margin-top: 0.5rem;'>{project['text']}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+st.markdown(
+    """
+    <div class='content-section'>
+        <div class='section-title'>Recruiter Note</div>
+        <div class='section-muted'>
+            Open for senior individual contributor roles across DevSecOps, Platform Engineering, Cloud Engineering and Automation Engineering.
+            Strong fit for teams building internal developer platforms, secure delivery systems, remediation workflows, cloud automation and
+            enterprise governance platforms.
         </div>
     </div>
     """,
