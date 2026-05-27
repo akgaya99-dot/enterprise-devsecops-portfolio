@@ -1,1043 +1,1225 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ profile.name }} | {{ profile.headline }}</title>
-  <meta name="description" content="{{ profile.summary }}" />
-  <style>
-    :root{
-      --accent: {{ theme.accent }};
-      --accent-2: {{ theme.accentSecondary }};
-      --accent-3: {{ theme.accentTertiary }};
-      --surface: {{ theme.surface }};
-      --surface-strong: {{ theme.surfaceStrong }};
-      --border: {{ theme.border }};
-      --text: #e5eefb;
-      --muted: #a5b4cf;
-      --bg: #020617;
-      --bg-2: #071120;
-      --shadow: 0 20px 60px rgba(0,0,0,.35);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 16px;
-      --radius-sm: 12px;
-      --max: 1320px;
-    }
-
-    *{ box-sizing:border-box; }
-    html,body{ margin:0; padding:0; }
-    body{
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 20% 0%, rgba(56,189,248,.18), transparent 32%),
-        radial-gradient(circle at 82% 12%, rgba(129,140,248,.16), transparent 26%),
-        linear-gradient(180deg, #040913 0%, #020617 45%, #040913 100%);
-      overflow-x: hidden;
-    }
-
-    a{ color:inherit; text-decoration:none; }
-
-    .page{
-      position:relative;
-      min-height:100vh;
-      padding: 24px;
-    }
-
-    .page::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background-image:
-        linear-gradient(rgba(148,163,184,.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(148,163,184,.06) 1px, transparent 1px);
-      background-size: 52px 52px;
-      mask-image: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.18));
-    }
-
-    .shell{
-      position:relative;
-      max-width: var(--max);
-      margin: 0 auto;
-      border:1px solid rgba(56,189,248,.2);
-      border-radius: 34px;
-      background: linear-gradient(180deg, rgba(7,13,25,.92), rgba(3,7,18,.88));
-      backdrop-filter: blur(16px);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-
-    .shell::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at top right, rgba(56,189,248,.08), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(129,140,248,.08), transparent 24%);
-    }
-
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:50;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      padding: 22px 28px;
-      background: rgba(6, 10, 19, .72);
-      backdrop-filter: blur(14px);
-      border-bottom:1px solid rgba(148,163,184,.12);
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      min-width:0;
-    }
-
-    .logo{
-      width:54px;
-      height:54px;
-      display:grid;
-      place-items:center;
-      font-weight:900;
-      letter-spacing:.04em;
-      border-radius:14px;
-      color:#dff6ff;
-      background:
-        linear-gradient(180deg, rgba(56,189,248,.15), rgba(129,140,248,.14));
-      border:1px solid rgba(56,189,248,.26);
-      box-shadow: 0 0 0 1px rgba(255,255,255,.03) inset, 0 10px 26px rgba(0,0,0,.28);
-    }
-
-    .brand-copy{
-      min-width:0;
-    }
-
-    .brand-copy strong{
-      display:block;
-      font-size:1rem;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .brand-copy span{
-      color: var(--muted);
-      font-size:.95rem;
-    }
-
-    .nav{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      justify-content:flex-end;
-    }
-
-    .nav a{
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,.18);
-      background: rgba(10,16,30,.78);
-      font-weight:700;
-      font-size:.92rem;
-      color:#e7f1ff;
-      transition: .2s ease;
-    }
-
-    .nav a:hover{
-      border-color: rgba(56,189,248,.34);
-      transform: translateY(-1px);
-    }
-
-    .content{
-      padding: 34px 28px 30px;
-    }
-
-    .hero{
-      display:grid;
-      grid-template-columns: minmax(0, 1.06fr) minmax(320px, .94fr);
-      gap: 28px;
-      align-items: stretch;
-    }
-
-    .hero-copy{
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      gap:18px;
-      padding: 4px 2px;
-    }
-
-    .eyebrow{
-      width:max-content;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(56,189,248,.26);
-      background: rgba(14,165,233,.08);
-      color:#b9ecff;
-      text-transform:uppercase;
-      font-size:.78rem;
-      letter-spacing:.16em;
-      font-weight:800;
-    }
-
-    .hero-copy h1{
-      margin:0;
-      font-size: clamp(2.2rem, 6vw, 4.6rem);
-      line-height:.98;
-      letter-spacing:-.05em;
-    }
-
-    .hero-copy h1 .accent{
-      display:block;
-      color: var(--accent);
-    }
-
-    .hero-copy p{
-      margin:0;
-      color: var(--muted);
-      font-size:1.03rem;
-      line-height:1.76;
-      max-width: 70ch;
-    }
-
-    .hero-meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top: 2px;
-    }
-
-    .pill{
-      padding:10px 14px;
-      border-radius:999px;
-      background: rgba(8,15,28,.76);
-      border:1px solid rgba(148,163,184,.16);
-      color:#dbeafe;
-      font-size:.92rem;
-      font-weight:700;
-    }
-
-    .hero-stage{
-      position:relative;
-      min-height: 430px;
-      border-radius: 28px;
-      border:1px solid rgba(56,189,248,.18);
-      background:
-        radial-gradient(circle at 28% 24%, rgba(56,189,248,.18), transparent 24%),
-        radial-gradient(circle at 74% 78%, rgba(129,140,248,.18), transparent 30%),
-        linear-gradient(180deg, rgba(8,12,24,.92), rgba(5,9,18,.96));
-      overflow:hidden;
-      isolation:isolate;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
-    }
-
-    .hero-stage::before,
-    .hero-stage::after{
-      content:"";
-      position:absolute;
-      inset:auto;
-      border-radius:999px;
-      filter: blur(44px);
-      opacity:.85;
-      pointer-events:none;
-    }
-
-    .hero-stage::before{
-      width:180px;
-      height:180px;
-      left:-30px;
-      top:18px;
-      background: rgba(56,189,248,.24);
-    }
-
-    .hero-stage::after{
-      width:220px;
-      height:220px;
-      right:-40px;
-      bottom:-20px;
-      background: rgba(129,140,248,.22);
-    }
-
-    #hero-canvas{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      display:block;
-      z-index:1;
-    }
-
-    .hero-fallback{
-      position:absolute;
-      inset:0;
-      z-index:0;
-      opacity:.6;
-      background:
-        radial-gradient(circle at 38% 42%, rgba(56,189,248,.16), transparent 12%),
-        radial-gradient(circle at 58% 24%, rgba(129,140,248,.18), transparent 16%),
-        radial-gradient(circle at 64% 68%, rgba(56,189,248,.14), transparent 12%);
-    }
-
-    .hero-overlay{
-      position:absolute;
-      inset:auto 18px 18px 18px;
-      z-index:2;
-      display:grid;
-      gap:10px;
-      padding: 16px 18px;
-      border-radius: 18px;
-      background: rgba(6,10,19,.54);
-      border:1px solid rgba(148,163,184,.14);
-      backdrop-filter: blur(10px);
-    }
-
-    .overlay-title{
-      font-size:.84rem;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:#bcdefc;
-      font-weight:800;
-    }
-
-    .overlay-grid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:10px;
-    }
-
-    .overlay-item{
-      padding:12px;
-      border-radius: 14px;
-      background: rgba(10,14,26,.78);
-      border:1px solid rgba(148,163,184,.12);
-    }
-
-    .overlay-item strong{
-      display:block;
-      color:#fff;
-      font-size:1rem;
-      margin-bottom:4px;
-    }
-
-    .overlay-item span{
-      color: var(--muted);
-      font-size:.86rem;
-      line-height:1.5;
-    }
-
-    .section{
-      margin-top: 28px;
-    }
-
-    .metrics{
-      display:grid;
-      grid-template-columns: repeat(4, minmax(0,1fr));
-      gap:16px;
-    }
-
-    .metric-card, .card, .workflow-card, .integration-card, .roadmap-card, .highlight{
-      background: var(--surface);
-      border:1px solid var(--border);
-      border-radius: var(--radius-lg);
-      backdrop-filter: blur(14px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.02);
-    }
-
-    .metric-card{
-      padding: 22px 20px;
-      min-height: 164px;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-start;
-      gap:8px;
-    }
-
-    .metric-icon{
-      font-size: 1.35rem;
-    }
-
-    .metric-value{
-      display:block;
-      font-size: 1.9rem;
-      font-weight:900;
-      color: var(--accent);
-      letter-spacing:-.03em;
-    }
-
-    .metric-label{
-      font-size: 1rem;
-      font-weight:800;
-      color:#f8fbff;
-    }
-
-    .metric-sub{
-      margin:0;
-      color: var(--muted);
-      font-size:.9rem;
-      line-height:1.6;
-    }
-
-    .section-header{
-      display:flex;
-      align-items:end;
-      justify-content:space-between;
-      gap:18px;
-      margin-bottom:16px;
-    }
-
-    .section-header h2{
-      margin:0;
-      font-size: clamp(1.3rem, 3vw, 2rem);
-      letter-spacing:-.04em;
-    }
-
-    .section-header p{
-      margin:0;
-      color: var(--muted);
-      max-width: 74ch;
-      line-height:1.7;
-    }
-
-    .split{
-      display:grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr);
-      gap: 16px;
-    }
-
-    .highlight{
-      padding: 22px;
-    }
-
-    .highlight h3{
-      margin:0 0 8px;
-      font-size: 1.2rem;
-    }
-
-    .highlight .kicker{
-      margin-bottom:10px;
-      font-size:.82rem;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:#b9ecff;
-      font-weight:800;
-    }
-
-    .highlight p{
-      margin:0;
-      color: var(--muted);
-      line-height:1.72;
-    }
-
-    .impact-list{
-      margin:16px 0 0 0;
-      padding-left: 18px;
-      color:#dbeafe;
-      line-height:1.7;
-    }
-
-    .impact-list li + li{
-      margin-top:8px;
-    }
-
-    .principles{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-content:flex-start;
-    }
-
-    .principle-tag, .skill-tag{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(56,189,248,.18);
-      background: rgba(14,165,233,.08);
-      color:#d7f0ff;
-      font-weight:700;
-      font-size:.9rem;
-    }
-
-    .grid-2{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .grid-3{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .card, .integration-card, .roadmap-card{
-      padding: 20px;
-      min-height: 180px;
-    }
-
-    .card-icon, .integration-icon, .roadmap-icon{
-      font-size:1.4rem;
-      margin-bottom:10px;
-    }
-
-    .card h3, .integration-card h3, .roadmap-card h3{
-      margin:0 0 8px;
-      font-size:1.08rem;
-    }
-
-    .card p, .integration-card p, .roadmap-card p{
-      margin:0;
-      color: var(--muted);
-      line-height:1.66;
-      font-size:.96rem;
-    }
-
-    .workflow{
-      display:grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .workflow-card{
-      padding:18px;
-      min-height: 180px;
-      position:relative;
-    }
-
-    .workflow-step{
-      display:inline-grid;
-      place-items:center;
-      width:34px;
-      height:34px;
-      border-radius:999px;
-      font-weight:900;
-      color:#06111c;
-      background: linear-gradient(180deg, var(--accent), var(--accent-2));
-      margin-bottom:14px;
-    }
-
-    .workflow-card h3{
-      margin:0 0 8px;
-      font-size:1rem;
-    }
-
-    .workflow-card p{
-      margin:0;
-      color: var(--muted);
-      line-height:1.65;
-      font-size:.93rem;
-    }
-
-    .skills{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-
-    .footer{
-      margin-top: 26px;
-      padding: 18px 4px 4px;
-      border-top:1px solid rgba(148,163,184,.12);
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:space-between;
-      gap:12px;
-      color: var(--muted);
-      font-size:.92rem;
-    }
-
-    .footer strong{
-      color:#e6f2ff;
-    }
-
-    @media (max-width: 1180px){
-      .hero{ grid-template-columns: 1fr; }
-      .metrics{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .workflow{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .grid-3{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .split{ grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 760px){
-      .page{ padding: 12px; }
-      .topbar, .content{ padding-left:16px; padding-right:16px; }
-      .topbar{ align-items:flex-start; flex-direction:column; }
-      .nav{ width:100%; justify-content:flex-start; }
-      .metrics, .grid-2, .grid-3, .workflow, .overlay-grid{
-        grid-template-columns: 1fr;
-      }
-      .hero-stage{ min-height: 360px; }
-      .metric-card, .card, .workflow-card, .integration-card, .roadmap-card{
-        min-height: unset;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *, *::before, *::after{
-        scroll-behavior:auto !important;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="page">
-    <div class="shell">
-      <header class="topbar">
-        <div class="brand">
-          <div class="logo">{{ profile.initials }}</div>
-          <div class="brand-copy">
-            <strong>{{ profile.name }}</strong>
-            <span>{{ profile.role }}</span>
+{% macro metric_card(item) -%}
+<article class="metric-card reveal">
+  <div class="metric-icon" aria-hidden="true">{{ item.icon }}</div>
+  <div class="metric-value">{{ item.value }}</div>
+  <div class="metric-label">{{ item.label }}</div>
+  <p class="metric-sub">{{ item.subtext }}</p>
+</article>
+{%- endmacro %}
+
+{% macro capability_card(item) -%}
+<article class="glass-card capability-card reveal">
+  <div class="card-head">
+    <span class="card-icon" aria-hidden="true">{{ item.icon }}</span>
+    <div>
+      <h3>{{ item.title }}</h3>
+      <p>{{ item.description }}</p>
+    </div>
+  </div>
+  {% if item.highlights %}
+  <ul class="micro-list" aria-label="{{ item.title }} highlights">
+    {% for bullet in item.highlights %}
+      <li>{{ bullet }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</article>
+{%- endmacro %}
+
+{% macro project_card(item) -%}
+<article class="glass-card project-card reveal">
+  <div class="project-topline">
+    <span class="card-icon" aria-hidden="true">{{ item.icon }}</span>
+    <div>
+      <h3>{{ item.title }}</h3>
+      <p>{{ item.description }}</p>
+    </div>
+  </div>
+  <div class="project-impact">{{ item.impact }}</div>
+  <div class="tag-row" aria-label="{{ item.title }} technology stack">
+    {% for tech in item.stack %}
+      <span class="tag">{{ tech }}</span>
+    {% endfor %}
+  </div>
+</article>
+{%- endmacro %}
+
+<style>
+:root{
+  --bg-0:#020617;
+  --bg-1:#071325;
+  --bg-2:#0f172a;
+  --glass:rgba(9,20,38,0.46);
+  --glass-border:rgba(148,163,184,0.22);
+  --text-0:#f8fafc;
+  --text-1:#d7e3f4;
+  --text-2:#8fa9c7;
+  --accent:#38bdf8;
+  --accent-2:#818cf8;
+  --success:#22c55e;
+  --shadow:0 28px 70px rgba(0,0,0,0.34);
+  --radius-lg:22px;
+  --radius-pill:999px;
+  --page-max:1280px;
+  --tab-height:58px;
+  --globe-size:min(42vw, 520px);
+  --font-system:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:var(--font-system);
+  color:var(--text-0);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(56,189,248,0.16), transparent 24%),
+    radial-gradient(circle at 80% 20%, rgba(129,140,248,0.12), transparent 24%),
+    radial-gradient(circle at 50% 100%, rgba(14,165,233,0.10), transparent 30%),
+    linear-gradient(180deg, #020617 0%, #030b17 40%, #020617 100%);
+  overflow-x:hidden;
+}
+
+a { color:inherit; text-decoration:none; }
+button { font:inherit; }
+
+.portfolio-app{
+  position:relative;
+  isolation:isolate;
+  min-height:100vh;
+}
+
+.bg-layer{
+  position:fixed;
+  inset:0;
+  z-index:-3;
+  overflow:hidden;
+}
+
+.bg-grid{
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(148,163,184,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148,163,184,0.06) 1px, transparent 1px);
+  background-size:42px 42px;
+  mask-image: radial-gradient(circle at center, rgba(0,0,0,0.85), transparent 92%);
+  pointer-events:none;
+}
+
+.bg-vignette{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at center, transparent 10%, rgba(2,6,23,0.45) 68%, rgba(2,6,23,0.84) 100%);
+  pointer-events:none;
+}
+
+#globe-canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.globe-fallback{
+  position:absolute;
+  inset:0;
+  display:none;
+  place-items:center;
+  pointer-events:none;
+}
+
+.no-webgl .globe-fallback{
+  display:grid;
+}
+
+.fallback-orb{
+  position:relative;
+  width:min(52vw, 540px);
+  aspect-ratio:1;
+  border-radius:50%;
+  border:1px solid rgba(125,211,252,0.35);
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255,255,255,0.18), transparent 18%),
+    radial-gradient(circle at 50% 48%, rgba(56,189,248,0.18), transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(15,23,42,0.55), rgba(2,6,23,0.16) 52%, rgba(255,255,255,0.02) 70%),
+    linear-gradient(180deg, rgba(8,47,73,0.28), rgba(30,41,59,0.06));
+  box-shadow:
+    0 0 0 1px rgba(56,189,248,0.12) inset,
+    0 0 60px rgba(14,165,233,0.18),
+    0 0 140px rgba(129,140,248,0.08);
+  overflow:hidden;
+}
+
+.fallback-orb::before,
+.fallback-orb::after{
+  content:"";
+  position:absolute;
+  inset:10%;
+  border-radius:50%;
+  border:1px dashed rgba(148,163,184,0.22);
+  transform:rotate(18deg);
+}
+
+.fallback-orb::after{
+  inset:20%;
+  transform:rotate(-22deg);
+}
+
+.fallback-grid{
+  position:absolute;
+  inset:7%;
+  border-radius:50%;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 24px, rgba(148,163,184,0.08) 24px 25px),
+    repeating-linear-gradient(90deg, transparent 0 24px, rgba(148,163,184,0.08) 24px 25px);
+  mask-image:radial-gradient(circle at center, rgba(0,0,0,1), transparent 74%);
+}
+
+.fallback-ak{
+  position:absolute;
+  left:50%;
+  top:50%;
+  translate:-50% -50%;
+  width:86px;
+  height:86px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  letter-spacing:0.08em;
+  color:#e0f2fe;
+  background:linear-gradient(135deg, rgba(56,189,248,0.85), rgba(99,102,241,0.7));
+  border:1px solid rgba(255,255,255,0.22);
+  box-shadow:0 16px 40px rgba(14,165,233,0.28);
+  animation:orbitAK 10s ease-in-out infinite alternate;
+}
+
+@keyframes orbitAK{
+  0%{ transform:translate(-56px, -28px) scale(0.95); }
+  25%{ transform:translate(34px, -78px) scale(1.03); }
+  50%{ transform:translate(92px, 18px) scale(0.96); }
+  75%{ transform:translate(10px, 84px) scale(1.04); }
+  100%{ transform:translate(-94px, 24px) scale(0.98); }
+}
+
+.page-shell{
+  width:min(calc(100% - 32px), var(--page-max));
+  margin:0 auto;
+  padding:28px 0 70px;
+}
+
+.hero-shell{
+  position:relative;
+  min-height:min(100vh, 940px);
+  display:grid;
+  align-items:center;
+  padding:28px 0 30px;
+}
+
+.hero-frame{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap:30px;
+  align-items:center;
+  z-index:2;
+}
+
+.globe-column{
+  position:relative;
+  min-height:560px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.globe-stage{
+  position:relative;
+  width:var(--globe-size);
+  aspect-ratio:1;
+  border-radius:50%;
+  pointer-events:none;
+}
+
+.command-panel{
+  position:relative;
+  padding:22px;
+  background:linear-gradient(180deg, rgba(9,20,38,0.58), rgba(3,10,22,0.46));
+  border:1px solid rgba(148,163,184,0.16);
+  border-radius:32px;
+  box-shadow:var(--shadow);
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
+}
+
+.command-panel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  padding:1px;
+  background:linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.03), rgba(56,189,248,0.18));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+          mask-composite:exclude;
+  pointer-events:none;
+}
+
+.status-row{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  border-radius:var(--radius-pill);
+  color:var(--text-0);
+  font-weight:700;
+  font-size:0.92rem;
+  border:1px solid rgba(125,211,252,0.22);
+  background:rgba(8,19,35,0.48);
+}
+
+.badge-dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #bbf7d0 0%, var(--success) 60%, #166534 100%);
+  box-shadow:0 0 0 0 rgba(34,197,94,0.55);
+  animation:statusPulse 2.6s ease-out infinite;
+}
+
+@keyframes statusPulse{
+  0%{ box-shadow:0 0 0 0 rgba(34,197,94,0.55); }
+  60%{ box-shadow:0 0 0 12px rgba(34,197,94,0); }
+  100%{ box-shadow:0 0 0 0 rgba(34,197,94,0); }
+}
+
+.eyebrow{
+  font-size:0.88rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:#7dd3fc;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.hero-title{
+  margin:0;
+  font-size:clamp(2.4rem, 5vw, 4.9rem);
+  line-height:0.98;
+  letter-spacing:-0.055em;
+  text-wrap:balance;
+}
+
+.hero-title .accent{
+  display:block;
+  color:#c4ecff;
+  text-shadow:0 0 32px rgba(56,189,248,0.12);
+}
+
+.hero-copy{
+  margin:18px 0 0;
+  font-size:1.03rem;
+  line-height:1.8;
+  color:var(--text-1);
+  max-width:68ch;
+}
+
+.hero-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:18px;
+}
+
+.meta-chip{
+  padding:10px 14px;
+  border-radius:var(--radius-pill);
+  border:1px solid rgba(148,163,184,0.18);
+  background:rgba(15,23,42,0.44);
+  color:#dbeafe;
+  font-weight:600;
+  font-size:0.92rem;
+}
+
+.link-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:22px;
+}
+
+.button-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  padding:0 18px;
+  border-radius:14px;
+  border:1px solid rgba(148,163,184,0.18);
+  background:rgba(15,23,42,0.56);
+  color:var(--text-0);
+  font-weight:700;
+  transition:transform .22s ease, border-color .22s ease, background .22s ease;
+}
+.button-link:hover,
+.button-link:focus-visible{
+  transform:translateY(-2px);
+  border-color:rgba(56,189,248,0.38);
+  background:rgba(14,165,233,0.14);
+  outline:none;
+}
+.button-link.primary{
+  background:linear-gradient(135deg, rgba(56,189,248,0.24), rgba(99,102,241,0.22));
+  border-color:rgba(125,211,252,0.28);
+}
+
+.panel-tabs{
+  position:sticky;
+  top:18px;
+  z-index:4;
+  margin-top:20px;
+  padding:10px;
+  border-radius:18px;
+  border:1px solid rgba(148,163,184,0.16);
+  background:rgba(3,10,22,0.34);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.tab-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.tab-button{
+  position:relative;
+  border:1px solid rgba(148,163,184,0.14);
+  background:rgba(255,255,255,0.03);
+  color:#dbeafe;
+  padding:12px 14px;
+  min-height:var(--tab-height);
+  border-radius:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .24s ease;
+}
+.tab-button:hover,
+.tab-button:focus-visible{
+  border-color:rgba(125,211,252,0.38);
+  outline:none;
+}
+.tab-button[aria-selected="true"]{
+  color:#f8fdff;
+  background:linear-gradient(135deg, rgba(56,189,248,0.18), rgba(99,102,241,0.14));
+  border-color:rgba(125,211,252,0.34);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 28px rgba(14,165,233,0.10);
+}
+
+.panel-deck{
+  margin-top:16px;
+}
+
+.tab-panel{
+  display:none;
+  padding:18px 0 0;
+}
+.tab-panel.active{
+  display:block;
+}
+
+.glass-card{
+  position:relative;
+  padding:22px;
+  border-radius:var(--radius-lg);
+  background:linear-gradient(180deg, rgba(10,20,38,0.56), rgba(6,15,28,0.38));
+  border:1px solid var(--glass-border);
+  box-shadow:var(--shadow);
+  backdrop-filter: blur(18px) saturate(128%);
+  -webkit-backdrop-filter: blur(18px) saturate(128%);
+}
+
+.glass-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:linear-gradient(135deg, rgba(255,255,255,0.04), transparent 45%, rgba(56,189,248,0.05));
+  pointer-events:none;
+}
+
+.overview-grid,
+.capability-grid,
+.project-grid,
+.stack-grid{
+  display:grid;
+  gap:18px;
+}
+
+.overview-grid{
+  grid-template-columns:1.1fr .9fr;
+}
+
+.capability-grid,
+.project-grid{
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+}
+
+.stack-grid{
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+}
+
+.section-kicker{
+  font-weight:800;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:#7dd3fc;
+  font-size:0.82rem;
+  margin-bottom:10px;
+}
+
+.section-title{
+  margin:0 0 12px;
+  font-size:1.24rem;
+  letter-spacing:-0.02em;
+}
+
+.stat-strip{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0,1fr));
+  gap:14px;
+  margin-top:28px;
+}
+
+.metric-card{
+  position:relative;
+  padding:18px 16px;
+  border-radius:20px;
+  background:linear-gradient(180deg, rgba(6,15,28,0.54), rgba(3,10,22,0.34));
+  border:1px solid rgba(148,163,184,0.15);
+  box-shadow:var(--shadow);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.metric-icon{
+  font-size:1.35rem;
+}
+.metric-value{
+  margin-top:12px;
+  font-size:clamp(1.3rem, 2.4vw, 2rem);
+  font-weight:900;
+  color:#dff6ff;
+}
+.metric-label{
+  margin-top:8px;
+  font-weight:800;
+}
+.metric-sub{
+  margin:6px 0 0;
+  color:var(--text-2);
+  line-height:1.5;
+  font-size:0.92rem;
+}
+
+.identity-points{
+  display:grid;
+  gap:10px;
+  margin:14px 0 0;
+}
+
+.identity-point{
+  display:grid;
+  grid-template-columns:18px 1fr;
+  gap:10px;
+  align-items:flex-start;
+  color:#d8ecfb;
+}
+.identity-point .dot{
+  width:10px;
+  height:10px;
+  margin-top:6px;
+  border-radius:50%;
+  background:linear-gradient(135deg, #38bdf8, #818cf8);
+  box-shadow:0 0 16px rgba(56,189,248,0.34);
+}
+
+.card-head,
+.project-topline{
+  display:grid;
+  grid-template-columns:56px 1fr;
+  gap:14px;
+  align-items:start;
+}
+
+.card-icon{
+  width:52px;
+  height:52px;
+  display:grid;
+  place-items:center;
+  border-radius:16px;
+  border:1px solid rgba(125,211,252,0.24);
+  background:rgba(56,189,248,0.08);
+  font-size:1.4rem;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.glass-card h3{
+  margin:0 0 8px;
+  font-size:1.1rem;
+}
+
+.glass-card p{
+  margin:0;
+  color:var(--text-1);
+  line-height:1.7;
+}
+
+.micro-list{
+  margin:16px 0 0;
+  padding-left:20px;
+  color:#dbeafe;
+  display:grid;
+  gap:8px;
+}
+.micro-list li{
+  line-height:1.55;
+}
+
+.project-impact{
+  margin-top:15px;
+  padding:14px 15px;
+  border-radius:16px;
+  border:1px solid rgba(148,163,184,0.14);
+  background:rgba(255,255,255,0.02);
+  color:#eff6ff;
+  font-weight:600;
+  line-height:1.55;
+}
+
+.tag-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:16px;
+}
+
+.tag{
+  display:inline-flex;
+  align-items:center;
+  min-height:34px;
+  padding:0 12px;
+  border-radius:999px;
+  border:1px solid rgba(125,211,252,0.20);
+  background:rgba(14,165,233,0.08);
+  color:#dff6ff;
+  font-size:0.88rem;
+  font-weight:700;
+}
+
+.skill-section{
+  position:relative;
+  padding:20px;
+  border-radius:20px;
+  background:linear-gradient(180deg, rgba(10,20,38,0.42), rgba(7,15,28,0.26));
+  border:1px solid rgba(148,163,184,0.14);
+}
+
+.skill-section h3{
+  margin:0 0 14px;
+  font-size:1rem;
+}
+
+.skills-wrap{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.section-shell{
+  position:relative;
+  margin-top:22px;
+  padding:28px;
+  border-radius:30px;
+  background:linear-gradient(180deg, rgba(9,20,38,0.38), rgba(3,10,22,0.22));
+  border:1px solid rgba(148,163,184,0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.section-shell h2{
+  margin:0 0 10px;
+  font-size:1.65rem;
+  letter-spacing:-0.03em;
+}
+
+.section-shell > p{
+  margin:0;
+  max-width:72ch;
+  color:var(--text-1);
+  line-height:1.75;
+}
+
+.footer-strip{
+  margin-top:24px;
+  padding:20px 24px;
+  border-radius:22px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  gap:12px;
+  border:1px solid rgba(148,163,184,0.12);
+  background:rgba(2,10,20,0.32);
+  color:#b9d8ef;
+}
+
+.footer-strip strong{
+  color:#f8fafc;
+}
+
+.reveal{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.reveal.in-view{
+  opacity:1;
+  transform:none;
+}
+
+.visually-hidden{
+  position:absolute !important;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+@media (max-width: 1080px){
+  .hero-frame{
+    grid-template-columns:1fr;
+  }
+  .globe-column{
+    order:-1;
+    min-height:380px;
+  }
+  .globe-stage{
+    width:min(72vw, 480px);
+  }
+  .overview-grid,
+  .capability-grid,
+  .project-grid,
+  .stack-grid,
+  .stat-strip{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media (max-width: 760px){
+  .page-shell{
+    width:min(calc(100% - 20px), var(--page-max));
+    padding-top:16px;
+    padding-bottom:42px;
+  }
+  .command-panel,
+  .section-shell{
+    padding:18px;
+  }
+  .hero-shell{
+    min-height:auto;
+  }
+  .globe-column{
+    min-height:300px;
+  }
+  .hero-title{
+    font-size:clamp(2.15rem, 10vw, 3rem);
+  }
+  .overview-grid,
+  .capability-grid,
+  .project-grid,
+  .stack-grid,
+  .stat-strip{
+    grid-template-columns:1fr;
+  }
+  .tab-list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+  .tab-button{
+    min-height:52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *, *::before, *::after{
+    animation-duration:0.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.001ms !important;
+  }
+}
+</style>
+
+<div class="portfolio-app" id="portfolio-app">
+  <div class="bg-layer" aria-hidden="true">
+    <canvas id="globe-canvas"></canvas>
+    <div class="globe-fallback">
+      <div class="fallback-orb">
+        <div class="fallback-grid"></div>
+        <div class="fallback-ak">{{ profile.initials }}</div>
+      </div>
+    </div>
+    <div class="bg-grid"></div>
+    <div class="bg-vignette"></div>
+  </div>
+
+  <div class="page-shell">
+    <section class="hero-shell" aria-labelledby="hero-title">
+      <div class="hero-frame">
+        <div class="command-panel">
+          <div class="status-row">
+            <span class="badge"><span class="badge-dot" aria-hidden="true"></span>{{ site.hero_badge }}</span>
+            <span class="badge">{{ profile.location }}</span>
+            <span class="badge">{{ profile.availability }}</span>
+          </div>
+
+          <div class="eyebrow">{{ site.eyebrow }}</div>
+          <h1 class="hero-title" id="hero-title">
+            {{ profile.name }}
+            <span class="accent">{{ profile.role }}</span>
+          </h1>
+          <p class="hero-copy">{{ profile.summary }}</p>
+
+          <div class="hero-meta" aria-label="Primary focus areas">
+            {% for item in site.focus %}
+              <span class="meta-chip">{{ item }}</span>
+            {% endfor %}
+          </div>
+
+          <div class="link-row">
+            <a class="button-link primary" href="{{ links.email }}">Contact</a>
+            <a class="button-link" href="{{ links.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a class="button-link" href="{{ links.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+
+          <div class="panel-tabs">
+            <div class="tab-list" role="tablist" aria-label="Portfolio sections">
+              <button class="tab-button" id="tab-overview" role="tab" type="button" aria-selected="true" aria-controls="panel-overview" tabindex="0">Overview</button>
+              <button class="tab-button" id="tab-capabilities" role="tab" type="button" aria-selected="false" aria-controls="panel-capabilities" tabindex="-1">Capabilities</button>
+              <button class="tab-button" id="tab-projects" role="tab" type="button" aria-selected="false" aria-controls="panel-projects" tabindex="-1">Projects</button>
+              <button class="tab-button" id="tab-stack" role="tab" type="button" aria-selected="false" aria-controls="panel-stack" tabindex="-1">Stack</button>
+            </div>
+          </div>
+
+          <div class="panel-deck">
+            <section class="tab-panel active" id="panel-overview" role="tabpanel" tabindex="0" aria-labelledby="tab-overview">
+              <div class="overview-grid">
+                <article class="glass-card">
+                  <div class="section-kicker">Role and Ownership</div>
+                  <h2 class="section-title">Lead engineer and product owner for automation-led remediation workflows</h2>
+                  <p>{{ site.overview_intro }}</p>
+                  <div class="identity-points">
+                    {% for point in site.identity_points %}
+                      <div class="identity-point">
+                        <span class="dot" aria-hidden="true"></span>
+                        <span>{{ point }}</span>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </article>
+
+                <article class="glass-card">
+                  <div class="section-kicker">Current Focus</div>
+                  <h2 class="section-title">{{ site.current_focus_title }}</h2>
+                  <p>{{ site.current_focus_body }}</p>
+                  <div class="tag-row" aria-label="Core workflow platforms">
+                    {% for tool in site.workflow_tools %}
+                      <span class="tag">{{ tool }}</span>
+                    {% endfor %}
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="tab-panel" id="panel-capabilities" role="tabpanel" tabindex="0" aria-labelledby="tab-capabilities">
+              <div class="capability-grid">
+                {% for item in capabilities %}
+                  {{ capability_card(item) }}
+                {% endfor %}
+              </div>
+            </section>
+
+            <section class="tab-panel" id="panel-projects" role="tabpanel" tabindex="0" aria-labelledby="tab-projects">
+              <div class="project-grid">
+                {% for item in projects %}
+                  {{ project_card(item) }}
+                {% endfor %}
+              </div>
+            </section>
+
+            <section class="tab-panel" id="panel-stack" role="tabpanel" tabindex="0" aria-labelledby="tab-stack">
+              <div class="stack-grid">
+                {% for category, items in skills.items() %}
+                  <article class="skill-section">
+                    <h3>{{ category }}</h3>
+                    <div class="skills-wrap">
+                      {% for item in items %}
+                        <span class="tag">{{ item }}</span>
+                      {% endfor %}
+                    </div>
+                  </article>
+                {% endfor %}
+              </div>
+            </section>
           </div>
         </div>
 
-        <nav class="nav" aria-label="Primary">
-          <a href="#overview">Overview</a>
-          <a href="#workflow">Workflow</a>
-          <a href="#integrations">Integrations</a>
-          <a href="#roadmap">Roadmap</a>
-          {% if links.github and links.github != "#" %}
-            <a href="{{ links.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
-          {% endif %}
-          {% if links.linkedin and links.linkedin != "#" %}
-            <a href="{{ links.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          {% endif %}
-          <a href="{{ links.email }}">Contact</a>
-        </nav>
-      </header>
+        <div class="globe-column" aria-hidden="true">
+          <div class="globe-stage"></div>
+        </div>
+      </div>
 
-      <main class="content">
-        <section class="hero" id="overview">
-          <div class="hero-copy">
-            <div class="eyebrow">Enterprise DevSecOps Product Leadership</div>
-            <h1>
-              {{ profile.headline }}
-              <span class="accent">{{ profile.subheadline }}</span>
-            </h1>
-            <p>{{ profile.summary }}</p>
-            <div class="hero-meta">
-              <span class="pill">📍 {{ profile.location }}</span>
-              <span class="pill">🧠 {{ profile.focus }}</span>
-              <span class="pill">✉️ {{ profile.email }}</span>
-            </div>
-          </div>
+      <div class="stat-strip" aria-label="Key metrics">
+        {% for item in metrics %}
+          {{ metric_card(item) }}
+        {% endfor %}
+      </div>
+    </section>
 
-          <div class="hero-stage" id="hero-stage">
-            <canvas id="hero-canvas" aria-hidden="true"></canvas>
-            <div class="hero-fallback" id="hero-fallback"></div>
-            <div class="hero-overlay">
-              <div class="overlay-title">Command center signals</div>
-              <div class="overlay-grid">
-                <div class="overlay-item">
-                  <strong>4,000+ servers</strong>
-                  <span>Governed remediation workflow footprint</span>
-                </div>
-                <div class="overlay-item">
-                  <strong>Owner-led</strong>
-                  <span>Host tagging, action routing, and patch accountability</span>
-                </div>
-                <div class="overlay-item">
-                  <strong>AI-ready</strong>
-                  <span>Roadmap for agentic remediation and workflow RCA</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+    <section class="section-shell reveal" id="capability-section">
+      <div class="section-kicker">Platform Design</div>
+      <h2>Why this upgraded structure fits a public-facing engineering portfolio</h2>
+      <p>{{ site.section_narrative }}</p>
+    </section>
 
-        <section class="section metrics" aria-label="Key metrics">
-          {% for metric in metrics %}
-          <article class="metric-card">
-            <div class="metric-icon">{{ metric.icon }}</div>
-            <span class="metric-value">{{ metric.value }}</span>
-            <span class="metric-label">{{ metric.label }}</span>
-            <p class="metric-sub">{{ metric.subtext }}</p>
-          </article>
-          {% endfor %}
-        </section>
-
-        <section class="section" id="product">
-          <div class="section-header">
-            <div>
-              <h2>Flagship product</h2>
-              <p>Position the site around the workflow you lead and own, not around a generic technology list.</p>
-            </div>
-          </div>
-
-          <div class="split">
-            <article class="highlight">
-              <div class="kicker">Product focus</div>
-              <h3>{{ product.name }}</h3>
-              <p>{{ product.tagline }}</p>
-              <p style="margin-top:12px;">{{ product.description }}</p>
-              <ul class="impact-list">
-                {% for point in product.impact_points %}
-                  <li>{{ point }}</li>
-                {% endfor %}
-              </ul>
-            </article>
-
-            <aside class="highlight">
-              <div class="kicker">Operating principles</div>
-              <div class="principles">
-                {% for principle in principles %}
-                  <span class="principle-tag">{{ principle }}</span>
-                {% endfor %}
-              </div>
-            </aside>
-          </div>
-        </section>
-
-        <section class="section" id="workflow">
-          <div class="section-header">
-            <div>
-              <h2>Workflow design</h2>
-              <p>Show the product as a governed remediation system: data intake, ownership, planning, execution, validation, and learning.</p>
-            </div>
-          </div>
-
-          <div class="workflow">
-            {% for step in workflow_steps %}
-              <article class="workflow-card">
-                <div class="workflow-step">{{ loop.index }}</div>
-                <h3>{{ step.title }}</h3>
-                <p>{{ step.description }}</p>
-              </article>
-            {% endfor %}
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-header">
-            <div>
-              <h2>Core capabilities</h2>
-              <p>These are the capabilities that matter most to recruiters and hiring managers for enterprise remediation, DevSecOps automation, and platform ownership.</p>
-            </div>
-          </div>
-
-          <div class="grid-2">
-            {% for item in capabilities %}
-              <article class="card">
-                <div class="card-icon">{{ item.icon }}</div>
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.description }}</p>
-              </article>
-            {% endfor %}
-          </div>
-        </section>
-
-        <section class="section" id="integrations">
-          <div class="section-header">
-            <div>
-              <h2>Integration ecosystem</h2>
-              <p>Your public profile should emphasize enterprise interoperability because the product’s value comes from orchestration across the remediation toolchain.</p>
-            </div>
-          </div>
-
-          <div class="grid-3">
-            {% for item in integrations %}
-              <article class="integration-card">
-                <div class="integration-icon">{{ item.icon }}</div>
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.description }}</p>
-              </article>
-            {% endfor %}
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-header">
-            <div>
-              <h2>Selected adjacent work</h2>
-              <p>Keep supporting work tightly related to remediation governance, release control, and intelligent automation.</p>
-            </div>
-          </div>
-
-          <div class="grid-3">
-            {% for item in projects %}
-              <article class="card">
-                <div class="card-icon">{{ item.icon }}</div>
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.description }}</p>
-              </article>
-            {% endfor %}
-          </div>
-        </section>
-
-        <section class="section" id="roadmap">
-          <div class="section-header">
-            <div>
-              <h2>Roadmap</h2>
-              <p>Be explicit about what is live today and what is future-state. That preserves credibility while still showing strategic direction.</p>
-            </div>
-          </div>
-
-          <div class="grid-3">
-            {% for item in roadmap %}
-              <article class="roadmap-card">
-                <div class="roadmap-icon">{{ item.icon }}</div>
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.description }}</p>
-              </article>
-            {% endfor %}
-          </div>
-        </section>
-
-        <section class="section" id="skills">
-          <div class="section-header">
-            <div>
-              <h2>Core skills</h2>
-              <p>Skills are intentionally limited to verified technologies and enterprise remediation keywords.</p>
-            </div>
-          </div>
-
-          <div class="skills">
-            {% for skill in skills %}
-              <span class="skill-tag">{{ skill }}</span>
-            {% endfor %}
-          </div>
-        </section>
-
-        <footer class="footer">
-          <div><strong>{{ profile.name }}</strong> • {{ profile.role }}</div>
-          <div>Generated from JSON + Jinja2 • Last rendered {{ generated_at }}</div>
-        </footer>
-      </main>
-    </div>
+    <section class="footer-strip reveal" aria-label="Footer">
+      <div><strong>{{ site.footer_motto }}</strong></div>
+      <div>{{ site.footer_note }}</div>
+    </section>
   </div>
+</div>
 
-  <script>
-    (() => {
-      const postHeight = () => {
-        const height = Math.max(
-          document.body.scrollHeight,
-          document.documentElement.scrollHeight,
-          document.body.offsetHeight,
-          document.documentElement.offsetHeight
-        );
-        try {
-          window.parent.postMessage({ type: "streamlit:setFrameHeight", height }, "*");
-        } catch (err) {}
-      };
+<script type="module">
+const CONFIG = {
+  logoText: {{ profile.initials|tojson }},
+  reduceMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+};
 
-      window.__postStreamlitHeight = postHeight;
+const root = document.getElementById('portfolio-app');
+const tabButtons = Array.from(document.querySelectorAll('[role="tab"]'));
+const tabPanels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
 
-      window.addEventListener("load", () => {
-        postHeight();
-        setTimeout(postHeight, 250);
-        setTimeout(postHeight, 1000);
+function activateTab(nextTab, moveFocus = true) {
+  tabButtons.forEach((tab) => {
+    const selected = tab === nextTab;
+    tab.setAttribute('aria-selected', String(selected));
+    tab.setAttribute('tabindex', selected ? '0' : '-1');
+  });
+
+  tabPanels.forEach((panel) => {
+    const active = panel.id === nextTab.getAttribute('aria-controls');
+    panel.classList.toggle('active', active);
+  });
+
+  if (moveFocus) nextTab.focus({ preventScroll: true });
+  notifyStreamlitHeight();
+}
+
+tabButtons.forEach((tab, index) => {
+  tab.addEventListener('click', () => activateTab(tab, false));
+  tab.addEventListener('keydown', (event) => {
+    const lastIndex = tabButtons.length - 1;
+    let nextIndex = null;
+
+    if (event.key === 'ArrowRight') nextIndex = index === lastIndex ? 0 : index + 1;
+    if (event.key === 'ArrowLeft') nextIndex = index === 0 ? lastIndex : index - 1;
+    if (event.key === 'Home') nextIndex = 0;
+    if (event.key === 'End') nextIndex = lastIndex;
+
+    if (nextIndex !== null) {
+      event.preventDefault();
+      activateTab(tabButtons[nextIndex]);
+    }
+  });
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) entry.target.classList.add('in-view');
+  });
+}, { threshold: 0.14 });
+
+document.querySelectorAll('.reveal').forEach((node) => revealObserver.observe(node));
+
+function notifyStreamlitHeight() {
+  const height = Math.max(
+    document.body.scrollHeight,
+    document.documentElement.scrollHeight,
+    root ? root.scrollHeight : 0
+  );
+
+  try {
+    window.parent.postMessage(
+      { isStreamlitMessage: true, type: 'streamlit:setFrameHeight', height },
+      '*'
+    );
+  } catch (err) {
+    // no-op for st.html or non-iframe renders
+  }
+}
+
+window.addEventListener('load', notifyStreamlitHeight);
+window.addEventListener('resize', notifyStreamlitHeight);
+
+if ('ResizeObserver' in window) {
+  const resizeObserver = new ResizeObserver(() => notifyStreamlitHeight());
+  resizeObserver.observe(document.body);
+}
+
+function hasWebGLSupport() {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(
+      window.WebGLRenderingContext &&
+      (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+    );
+  } catch (err) {
+    return false;
+  }
+}
+
+if (!hasWebGLSupport()) {
+  document.body.classList.add('no-webgl');
+} else {
+  import('https://unpkg.com/three@0.165.0/build/three.module.js')
+    .then((THREE) => {
+      const canvas = document.getElementById('globe-canvas');
+      if (!canvas) return;
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: !CONFIG.reduceMotion,
+        alpha: true,
+        powerPreference: 'high-performance'
       });
 
-      window.addEventListener("resize", postHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, CONFIG.reduceMotion ? 1 : 1.5));
 
-      try {
-        const resizeObserver = new ResizeObserver(() => postHeight());
-        resizeObserver.observe(document.body);
-      } catch (err) {}
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.set(0, 0, 8.4);
 
-      try {
-        const mutationObserver = new MutationObserver(() => postHeight());
-        mutationObserver.observe(document.body, {
-          childList: true,
-          subtree: true,
-          attributes: true
-        });
-      } catch (err) {}
-    })();
-  </script>
+      const ambient = new THREE.AmbientLight(0xe0f2fe, 1.1);
+      const point = new THREE.PointLight(0x60a5fa, 2.4, 30);
+      point.position.set(4, 3, 6);
+      const rim = new THREE.PointLight(0x818cf8, 1.5, 20);
+      rim.position.set(-5, -2, -4);
+      scene.add(ambient, point, rim);
 
-  <script type="module">
-    const stage = document.getElementById("hero-stage");
-    const canvas = document.getElementById("hero-canvas");
-    const notifyHeight = window.__postStreamlitHeight || (() => {});
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const globeGroup = new THREE.Group();
+      scene.add(globeGroup);
 
-    if (!stage || !canvas) {
-      notifyHeight();
-    } else {
-      const boot = async () => {
-        try {
-          const THREE = await import("https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js");
+      const globeGeom = new THREE.SphereGeometry(2.12, 60, 60);
+      const globeMat = new THREE.MeshPhysicalMaterial({
+        color: 0x0b2743,
+        metalness: 0.06,
+        roughness: 0.34,
+        transmission: 0.18,
+        transparent: true,
+        opacity: 0.88,
+        clearcoat: 0.6,
+        clearcoatRoughness: 0.2
+      });
+      const globe = new THREE.Mesh(globeGeom, globeMat);
+      globeGroup.add(globe);
 
-          const renderer = new THREE.WebGLRenderer({
-            canvas,
-            antialias: true,
-            alpha: true,
-            powerPreference: "high-performance"
-          });
+      const wireframe = new THREE.LineSegments(
+        new THREE.EdgesGeometry(new THREE.SphereGeometry(2.14, 26, 18)),
+        new THREE.LineBasicMaterial({
+          color: 0x5dd6ff,
+          transparent: true,
+          opacity: 0.18
+        })
+      );
+      globeGroup.add(wireframe);
 
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
+      const atmosphere = new THREE.Mesh(
+        new THREE.SphereGeometry(2.32, 48, 48),
+        new THREE.MeshBasicMaterial({
+          color: 0x38bdf8,
+          transparent: true,
+          opacity: 0.08,
+          side: THREE.BackSide
+        })
+      );
+      globeGroup.add(atmosphere);
 
-          const scene = new THREE.Scene();
-          const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-          camera.position.set(0, 0, 8.4);
-
-          const ambient = new THREE.AmbientLight(0x8fd9ff, 0.9);
-          scene.add(ambient);
-
-          const keyLight = new THREE.PointLight(0x38bdf8, 2.4, 30, 2);
-          keyLight.position.set(3.2, 2.4, 5.5);
-          scene.add(keyLight);
-
-          const fillLight = new THREE.PointLight(0x818cf8, 1.7, 30, 2);
-          fillLight.position.set(-3.0, -2.4, 4.8);
-          scene.add(fillLight);
-
-          const cluster = new THREE.Group();
-          scene.add(cluster);
-
-          const wireGeometry = new THREE.IcosahedronGeometry(1.7, 1);
-          const wireframe = new THREE.LineSegments(
-            new THREE.WireframeGeometry(wireGeometry),
-            new THREE.LineBasicMaterial({
-              color: 0x67d8ff,
-              transparent: true,
-              opacity: 0.42
-            })
-          );
-          cluster.add(wireframe);
-
-          const core = new THREE.Mesh(
-            new THREE.IcosahedronGeometry(1.25, 1),
-            new THREE.MeshPhongMaterial({
-              color: 0x0f2b4b,
-              emissive: 0x0ea5e9,
-              emissiveIntensity: 0.24,
-              wireframe: true,
-              transparent: true,
-              opacity: 0.22
-            })
-          );
-          cluster.add(core);
-
-          const rings = [];
-          const ringMaterialA = new THREE.MeshBasicMaterial({
-            color: 0x22d3ee,
-            transparent: true,
-            opacity: 0.18
-          });
-          const ringMaterialB = new THREE.MeshBasicMaterial({
-            color: 0x818cf8,
-            transparent: true,
-            opacity: 0.16
-          });
-
-          const ring1 = new THREE.Mesh(new THREE.TorusGeometry(2.35, 0.022, 16, 160), ringMaterialA);
-          ring1.rotation.set(Math.PI * 0.36, Math.PI * 0.12, 0);
-          cluster.add(ring1);
-          rings.push(ring1);
-
-          const ring2 = new THREE.Mesh(new THREE.TorusGeometry(2.0, 0.02, 16, 160), ringMaterialB);
-          ring2.rotation.set(Math.PI * 0.68, Math.PI * 0.22, Math.PI * 0.12);
-          cluster.add(ring2);
-          rings.push(ring2);
-
-          const ring3 = new THREE.Mesh(new THREE.TorusGeometry(1.55, 0.018, 16, 140), ringMaterialA.clone());
-          ring3.rotation.set(Math.PI * 0.16, Math.PI * 0.78, Math.PI * 0.08);
-          ring3.material.opacity = 0.13;
-          cluster.add(ring3);
-          rings.push(ring3);
-
-          const nodeGeometry = new THREE.SphereGeometry(0.06, 14, 14);
-          const nodes = [];
-          for (let i = 0; i < 28; i++) {
-            const node = new THREE.Mesh(
-              nodeGeometry,
-              new THREE.MeshPhongMaterial({
-                color: 0xe4f6ff,
-                emissive: i % 4 === 0 ? 0x818cf8 : 0x38bdf8,
-                emissiveIntensity: 0.85,
-                shininess: 70
-              })
-            );
-            const v = new THREE.Vector3().randomDirection().multiplyScalar(1.5 + Math.random() * 0.55);
-            node.position.copy(v);
-            node.scale.setScalar(0.8 + Math.random() * 0.55);
-            cluster.add(node);
-            nodes.push(node);
-          }
-
-          const particleCount = 220;
-          const particlePositions = new Float32Array(particleCount * 3);
-          for (let i = 0; i < particleCount; i++) {
-            const offset = i * 3;
-            particlePositions[offset] = (Math.random() - 0.5) * 12;
-            particlePositions[offset + 1] = (Math.random() - 0.5) * 8;
-            particlePositions[offset + 2] = (Math.random() - 0.5) * 8;
-          }
-
-          const particleGeometry = new THREE.BufferGeometry();
-          particleGeometry.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
-
-          const particles = new THREE.Points(
-            particleGeometry,
-            new THREE.PointsMaterial({
-              color: 0xb7ecff,
-              size: 0.03,
-              transparent: true,
-              opacity: 0.7
-            })
-          );
-          scene.add(particles);
-
-          const resize = () => {
-            const width = Math.max(stage.clientWidth, 320);
-            const height = Math.max(stage.clientHeight, 320);
-            renderer.setSize(width, height, false);
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-            notifyHeight();
-          };
-
-          const stageObserver = new ResizeObserver(resize);
-          stageObserver.observe(stage);
-          resize();
-
-          let animateEnabled = !prefersReducedMotion;
-
-          document.addEventListener("visibilitychange", () => {
-            animateEnabled = !document.hidden && !prefersReducedMotion;
-          });
-
-          renderer.setAnimationLoop((time) => {
-            const t = time * 0.0004;
-
-            if (animateEnabled) {
-              cluster.rotation.x = t * 0.7;
-              cluster.rotation.y = t * 1.1;
-              wireframe.rotation.z = t * 1.35;
-              core.rotation.z = -t * 0.7;
-              rings[0].rotation.y += 0.0024;
-              rings[1].rotation.x += 0.0021;
-              rings[2].rotation.z += 0.0018;
-
-              nodes.forEach((node, index) => {
-                const pulse = 0.92 + Math.sin(t * 7 + index * 0.65) * 0.12;
-                node.scale.setScalar(pulse);
-              });
-
-              particles.rotation.y = -t * 0.24;
-              particles.rotation.x = t * 0.08;
-            }
-
-            renderer.render(scene, camera);
-          });
-        } catch (err) {
-          console.warn("Three.js hero bootstrap failed:", err);
-          notifyHeight();
+      function createOrbitLine(radius, ry, rz, opacity) {
+        const points = [];
+        const segments = 180;
+        for (let i = 0; i <= segments; i += 1) {
+          const t = (i / segments) * Math.PI * 2;
+          points.push(new THREE.Vector3(Math.cos(t) * radius, Math.sin(t) * radius, 0));
         }
-      };
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.LineBasicMaterial({
+          color: 0x93c5fd,
+          transparent: true,
+          opacity
+        });
+        const line = new THREE.LineLoop(geometry, material);
+        line.rotation.y = ry;
+        line.rotation.z = rz;
+        return line;
+      }
 
-      boot();
-    }
-  </script>
-</body>
-</html>
+      globeGroup.add(createOrbitLine(2.62, 0.2, 0.75, 0.22));
+      globeGroup.add(createOrbitLine(2.82, -0.65, 0.12, 0.16));
+      globeGroup.add(createOrbitLine(2.4, 0.95, -0.32, 0.12));
+
+      function createAKSprite(text) {
+        const size = 256;
+        const cnv = document.createElement('canvas');
+        cnv.width = size;
+        cnv.height = size;
+        const ctx = cnv.getContext('2d');
+
+        const g = ctx.createRadialGradient(size * 0.32, size * 0.28, size * 12, size * 0.5, size * 0.5, size * 0.5);
+        g.addColorStop(0, 'rgba(224,242,254,0.96)');
+        g.addColorStop(0.6, 'rgba(56,189,248,0.90)');
+        g.addColorStop(1, 'rgba(99,102,241,0.82)');
+
+        ctx.clearRect(0, 0, size, size);
+
+        ctx.beginPath();
+        ctx.arc(size / 2, size / 2, size * 0.38, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fillStyle = g;
+        ctx.fill();
+
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = 'rgba(255,255,255,0.34)';
+        ctx.stroke();
+
+        ctx.fillStyle = '#eff6ff';
+        ctx.font = '900 110px Inter, Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, size / 2, size / 2 + 6);
+
+        const texture = new THREE.CanvasTexture(cnv);
+        texture.needsUpdate = true;
+
+        const material = new THREE.SpriteMaterial({
+          map: texture,
+          transparent: true,
+          opacity: 0.95
+        });
+
+        const sprite = new THREE.Sprite(material);
+        sprite.scale.set(1.1, 1.1, 1.1);
+        return sprite;
+      }
+
+      const akSprite = createAKSprite(CONFIG.logoText);
+      globeGroup.add(akSprite);
+
+      const pointsCount = CONFIG.reduceMotion ? 120 : 240;
+      const positions = new Float32Array(pointsCount * 3);
+
+      for (let i = 0; i < pointsCount; i += 1) {
+        const radius = 8 + Math.random() * 6;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos((Math.random() * 2) - 1);
+        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = radius * Math.cos(phi);
+        positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
+      }
+
+      const stars = new THREE.BufferGeometry();
+      stars.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const starField = new THREE.Points(
+        stars,
+        new THREE.PointsMaterial({
+          color: 0xe2f3ff,
+          size: CONFIG.reduceMotion ? 0.03 : 0.04,
+          transparent: true,
+          opacity: 0.8,
+          sizeAttenuation: true
+        })
+      );
+      scene.add(starField);
+
+      function layout() {
+        const width = window.innerWidth;
+        const height = Math.max(window.innerHeight, document.documentElement.clientHeight || 720);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height, false);
+        notifyStreamlitHeight();
+      }
+
+      layout();
+      window.addEventListener('resize', layout);
+
+      let mouseX = 0;
+      let mouseY = 0;
+
+      window.addEventListener('pointermove', (event) => {
+        mouseX = ((event.clientX / window.innerWidth) - 0.5) * 0.35;
+        mouseY = ((event.clientY / window.innerHeight) - 0.5) * 0.2;
+      });
+
+      const clock = new THREE.Clock();
+
+      function animate() {
+        const elapsed = clock.getElapsedTime();
+        const speed = CONFIG.reduceMotion ? 0.25 : 1;
+
+        globe.rotation.y = elapsed * 0.1 * speed;
+        wireframe.rotation.y = elapsed * 0.14 * speed;
+        atmosphere.rotation.y = -elapsed * 0.04 * speed;
+        globeGroup.rotation.x += (mouseY - globeGroup.rotation.x) * 0.025;
+        globeGroup.rotation.y += ((mouseX + elapsed * 0.03) - globeGroup.rotation.y) * 0.03;
+
+        akSprite.position.set(
+          Math.sin(elapsed * 0.95) * 0.92,
+          Math.cos(elapsed * 1.2) * 0.56,
+          Math.sin(elapsed * 1.36) * 0.74
+        );
+
+        const scalePulse = 1 + (Math.sin(elapsed * 2.4) * 0.04);
+        akSprite.scale.set(1.1 * scalePulse, 1.1 * scalePulse, 1.1 * scalePulse);
+
+        starField.rotation.y = elapsed * 0.012;
+        renderer.render(scene, camera);
+      }
+
+      if (CONFIG.reduceMotion) {
+        animate();
+      } else {
+        renderer.setAnimationLoop(animate);
+      }
+    })
+    .catch(() => {
+      document.body.classList.add('no-webgl');
+    });
+}
+</script>
