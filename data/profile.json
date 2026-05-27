@@ -1,100 +1,203 @@
 {
+  "theme": {
+    "accent": "#38bdf8",
+    "accentSecondary": "#22d3ee",
+    "accentTertiary": "#818cf8",
+    "surface": "rgba(8, 15, 31, 0.74)",
+    "surfaceStrong": "rgba(6, 10, 19, 0.88)",
+    "border": "rgba(148, 163, 184, 0.18)"
+  },
   "profile": {
     "name": "Aakash Kumar",
     "initials": "AK",
-    "role": "Senior Platform & DevSecOps Engineer",
-    "headline": "Enterprise DevSecOps & Platform Engineering Portfolio",
-    "subheadline": "Cloud Automation • CI/CD • Infrastructure • Governance • Remediation",
-    "summary": "Senior Platform & DevSecOps Engineer with 6+ years of experience designing and scaling enterprise automation platforms within large banking and financial services environments. Specialized in CI/CD automation, cloud infrastructure, platform engineering, vulnerability remediation, and policy-driven operational automation.",
-    "location": "Pune, India | Open to Bangalore & Dubai",
-    "email": "akgaya99@gmail.com"
+    "role": "Product Lead | Platform Engineering & DevSecOps Automation",
+    "headline": "Enterprise Vulnerability Remediation Command Center",
+    "subheadline": "Owner-led remediation governance for regulated infrastructure, platform automation, and AI-ready operations",
+    "summary": "Platform engineering and DevSecOps leader with 6+ years of experience building enterprise automation in banking and financial services environments. I lead and own a vulnerability remediation workflow that translates scanner-driven findings into dashboards, ownership mapping, host tagging, mitigation planning, and tracked execution across Jira, GitHub, ServiceNow, Jenkins, and Red Hat Ansible Automation Platform. The platform is designed for 4,000+ servers, enforces lower-environment-first patching, and is being shaped toward agentic remediation and AI-assisted root-cause analysis.",
+    "location": "Pune, India • Open to Bangalore, Hyderabad, and Dubai",
+    "email": "akgaya99@gmail.com",
+    "experience": "6+ years",
+    "focus": "Enterprise vulnerability remediation, DevSecOps workflow orchestration, and platform ownership"
   },
   "links": {
-    "linkedin": "https://www.linkedin.com/",
-    "github": "https://github.com/",
+    "linkedin": "#",
+    "github": "https://github.com/akgaya99",
     "email": "mailto:akgaya99@gmail.com"
   },
   "metrics": [
     {
-      "icon": "🚀",
-      "value": "100K+",
-      "label": "Deployment Operations",
-      "subtext": "Supported at enterprise scale"
-    },
-    {
-      "icon": "📈",
-      "value": "70%",
-      "label": "Operational Effort Reduction",
-      "subtext": "Automation-led efficiency"
-    },
-    {
-      "icon": "🏢",
-      "value": "Enterprise",
-      "label": "Platform Ownership",
-      "subtext": "Banking-grade automation"
-    },
-    {
       "icon": "🛡️",
-      "value": "Secure",
-      "label": "DevSecOps Delivery",
-      "subtext": "Governed and reliable"
+      "value": "4,000+",
+      "label": "Servers under governance",
+      "subtext": "Workflow designed for enterprise-scale remediation operations"
+    },
+    {
+      "icon": "🔗",
+      "value": "6",
+      "label": "Core integrations",
+      "subtext": "Jira, GitHub, ServiceNow, Jenkins, REST APIs, and AAP"
+    },
+    {
+      "icon": "📍",
+      "value": "Lead / Owner",
+      "label": "Product accountability",
+      "subtext": "From workflow design to operational rollout and governance"
+    },
+    {
+      "icon": "🤖",
+      "value": "AI-ready",
+      "label": "Future-state roadmap",
+      "subtext": "Agentic remediation and AI-RCA for failed workflow chains"
     }
   ],
   "capabilities": [
     {
-      "icon": "🛡️",
-      "title": "DevSecOps Engineering",
-      "description": "Secure automation, vulnerability remediation workflows, governance controls, and audit-ready delivery pipelines."
+      "icon": "🧭",
+      "title": "Remediation Orchestration",
+      "description": "Turn vulnerability data into owner-led action with workflow states, patch sequencing, mitigation planning, and tracked execution."
     },
     {
       "icon": "⚙️",
-      "title": "Platform Engineering",
-      "description": "Internal platforms, self-service workflows, reusable automation layers, and long-term platform ownership."
+      "title": "DevSecOps Automation",
+      "description": "Build API-first automation with Jenkins, Python, and enterprise integrations to reduce operational effort and improve remediation velocity."
+    },
+    {
+      "icon": "🏛️",
+      "title": "Platform Ownership",
+      "description": "Own the product lifecycle end to end: roadmap, policy design, workflow guardrails, stakeholder alignment, and scale-ready operations."
+    },
+    {
+      "icon": "📈",
+      "title": "Operational Intelligence",
+      "description": "Surface dashboards, status signals, SLA views, and exception paths that make remediation measurable, auditable, and actionable."
+    }
+  ],
+  "product": {
+    "name": "Enterprise Vulnerability Remediation Workflow",
+    "tagline": "Owner-led DevSecOps platform for remediation planning, governance, and execution",
+    "description": "A workflow product that converts vulnerability reports into prioritized dashboards, ownership tagging, environment-aware planning, and execution hand-offs. It is built for regulated enterprise environments where remediation must be coordinated across application teams, infrastructure owners, and automation platforms without losing governance or traceability.",
+    "impact_points": [
+      "Designed for large-scale remediation operations across 4,000+ servers in enterprise infrastructure.",
+      "Supports owner mapping, host tagging, exception tracking, patch sequencing, and mitigation planning.",
+      "Coordinates execution through Jira, GitHub, ServiceNow, Jenkins, REST APIs, and Red Hat Ansible Automation Platform.",
+      "Enforces lower-environment-first patching to reduce production risk and improve release discipline.",
+      "Creates the foundation for agentic remediation and AI-assisted root-cause analysis when workflow steps fail."
+    ]
+  },
+  "workflow_steps": [
+    {
+      "title": "Ingest and normalize findings",
+      "description": "Bring vulnerability report data into a workflow model that supports dashboards, grouping, and ownership decisions."
+    },
+    {
+      "title": "Map owners and tag hosts",
+      "description": "Associate assets with accountable owners and host-level tags for planning, exception handling, and execution routing."
+    },
+    {
+      "title": "Plan mitigation safely",
+      "description": "Sequence remediation through lower environments first, define maintenance windows, and document decisions in ticketing systems."
+    },
+    {
+      "title": "Trigger execution",
+      "description": "Coordinate tickets, code or configuration updates, change records, and automation execution through integrated enterprise platforms."
+    },
+    {
+      "title": "Validate, report, and learn",
+      "description": "Track closure, measure workflow health, and prepare for AI-RCA and agentic remediation capabilities in future releases."
+    }
+  ],
+  "integrations": [
+    {
+      "icon": "📋",
+      "title": "Jira",
+      "description": "Mitigation planning, task ownership, sprint-aligned remediation tracking, and operational follow-through."
+    },
+    {
+      "icon": "🐙",
+      "title": "GitHub",
+      "description": "Source-linked actions, workflow references, pull-request visibility, and engineering hand-offs."
     },
     {
       "icon": "☁️",
-      "title": "Cloud Automation",
-      "description": "AWS infrastructure automation, environment provisioning, API integration, and cloud operational reliability."
+      "title": "ServiceNow",
+      "description": "Change coordination, service ownership context, and enterprise process alignment."
     },
     {
       "icon": "🚀",
-      "title": "CI/CD Automation",
-      "description": "Jenkins-led delivery automation, release governance, build orchestration, and deployment lifecycle optimization."
+      "title": "Jenkins",
+      "description": "Automation entrypoint for governed job execution, release-aligned orchestration, and operational workflow control."
+    },
+    {
+      "icon": "🧩",
+      "title": "Red Hat AAP",
+      "description": "Execution-tier automation for patching and standardized operational tasks in controlled environments."
+    },
+    {
+      "icon": "🔌",
+      "title": "REST APIs",
+      "description": "The connective layer that keeps the platform API-first, integrable, and ready for future intelligent automation."
     }
   ],
   "projects": [
     {
       "icon": "🎯",
-      "title": "Enterprise Vulnerability Remediation Platform",
-      "description": "Centralized remediation orchestration platform concept for regulated enterprise environments."
+      "title": "Enterprise Remediation Governance Layer",
+      "description": "Built an owner-led governance model for vulnerability response, metric visibility, exception handling, and execution traceability."
     },
     {
-      "icon": "🚀",
-      "title": "Enterprise CI/CD Automation Framework",
-      "description": "Standardized large-scale deployment operations using Jenkins, AWS, Terraform, and governance workflows."
+      "icon": "🚦",
+      "title": "Lower-Environment-First Patch Sequencing",
+      "description": "Implemented workflow controls to prioritize non-production remediation before production rollout, reducing delivery risk."
+    },
+    {
+      "icon": "🧠",
+      "title": "AI-RCA and Agentic Remediation Roadmap",
+      "description": "Defined a future-state path where failed workflow steps trigger structured root-cause analysis and remediation recommendations."
+    }
+  ],
+  "principles": [
+    "Owner-led accountability",
+    "API-first automation",
+    "Policy-driven execution",
+    "Lower-environment-first patching",
+    "Audit-ready traceability",
+    "AI-ready workflow design"
+  ],
+  "roadmap": [
+    {
+      "icon": "🤖",
+      "title": "Agentic remediation",
+      "description": "Expand from orchestration to guided or autonomous task execution where confidence, controls, and approvals allow."
+    },
+    {
+      "icon": "🧠",
+      "title": "AI-assisted RCA",
+      "description": "Detect failure patterns in workflow chains and generate likely causes, decision context, and next-best-action guidance."
     },
     {
       "icon": "📊",
-      "title": "Trading Automation Systems",
-      "description": "Real-time automation systems using WebSocket market data, broker APIs, and strategy-based execution."
+      "title": "Risk-prioritized dashboards",
+      "description": "Overlay severity with exploit likelihood, workflow state, asset ownership, and operational constraints for better triage."
     }
   ],
   "skills": [
-    "DevSecOps",
+    "Vulnerability Remediation",
+    "DevSecOps Automation",
     "Platform Engineering",
-    "AWS",
     "Jenkins",
     "Python",
-    "Terraform",
-    "Ansible",
-    "Linux",
+    "AWS",
     "REST APIs",
-    "CI/CD",
-    "Cloud Automation",
-    "Infrastructure Automation",
+    "ServiceNow",
+    "Jira",
+    "GitHub",
     "Bitbucket",
-    "Artifactory",
-    "Git",
-    "Jira"
+    "Linux",
+    "AAP",
+    "Workflow Orchestration",
+    "Operational Dashboards",
+    "Patch Governance",
+    "Ownership Mapping",
+    "AI-RCA Roadmapping"
   ]
 }
